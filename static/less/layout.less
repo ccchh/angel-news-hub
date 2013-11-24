@@ -1,3 +1,71 @@
 body {
-    padding-top: 50px;
+    padding-top: 10px;
+    padding-bottom: 50px;
+}
+
+
+h1 {
+  font-size: 30px;
+  font-weight: 100;
+}
+
+.forecast {
+  margin-bottom: 30px;
+}
+
+.job-list, .current-talks, .next-talks, .news {
+  .make-sm-column(12);
+  .make-md-column(6);
+  .make-lg-column(6);
+}
+
+.upcoming-shifts, .upcoming-night-shifts, .currently-working, .hours-worked {
+  .make-sm-column(6);
+  .make-md-column(3);
+  .make-lg-column(3);
+  .number {
+    font-size: 100px;
+  }
+  .description {
+    font-size: 12px;
+    font-weight: bold;
+  }
+  text-align: center;
+  font-weight: 100;
+}
+
+
+.job {
+  header {
+    font-size: 30px;
+    time {
+      margin-left: 10px;
+    }
+  }
+  .job-description {
+    font-size: 30px;
+    font-weight: 100;
+  }
+}
+
+.navbar-right {
+  .icon {
+    font-size: 30px;
+    a {
+      padding: 13px 10px 0 0;
+    }
+  }
+}
+
+.current-talks, .next-talks {
+  font-size: 20px;
+  font-weight: 100;
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      padding: 5px 5px 0 5px;
+      margin-bottom: 5px;
+    }
+  }  
 }

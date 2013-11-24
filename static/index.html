@@ -1,43 +1,221 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Example App</title>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <title>Example App</title>
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Chaos-Angel-Dashboard</a>
+  <div class="navbar navbar-default navbar-inverse navbar-fixed-bottom" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><i class="icon-rocket">&nbsp;&nbsp;</i>30C3 News Hub</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Dashboard</a></li>
+          <li><a href="https://github.com/ccchh/angel-news-hub/issues">Report issue</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="icon">
+            <a href="https://github.com/ccchh/angel-news-hub/" class="icon-social-github"></a>
+          </li>
+          <li class="icon">
+            <a href="#" class="icon-html5"></a>
+          </li>
+          <li class="icon">
+            <a href="#" class="icon-css3"></a>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+              Legend<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation" class="dropdown-header">Angel-Types</li>
+              <li><a href="#" class="icon-egal">Egal Angel</a></li>
+              <li><a href="#" class="icon-audio">Audio Angel</a></li>
+              <li><a href="#" class="icon-video">Video Angel</a></li>
+              <li><a href="#" class="icon-security">Security Angel</a></li>
+              <li><a href="#" class="icon-cashdesk">Cashdesk Angel</a></li>
+              <li><a href="#" class="icon-infothresen">Info Angel</a></li>
+              <li><a href="#" class="icon-noc-helpdesk">NOC Helpdesk</a></li>
+              <li><a href="#" class="icon-cert">CERT Angel</a></li>
+              <li><a href="#" class="icon-herald">Herald</a></li>
+              <li><a href="#" class="icon-signal">Signal Angel</a></li>
+              <li role="presentation" class="divider"></li>
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+              Admin <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li role="presentation" class="dropdown-header">Notifications</li>
+              <li><a href="#send-to-all">Send to all</a></li>
+              <li><a href="#send-to-security">Send to security</a></li>
+              <li><a href="#send-to-heralds">Send to heralds</a></li>
+              <li><a href="#send-to-audio">Send to audio</a></li>
+              <li><a href="#send-to-video">Send to video</a></li>
+              <li><a href="#send-to-bar">Send to bar</a></li>
+              <li><a href="#send-to-cert">Send to CERT</a></li>
+              <li><a href="#send-to-cash-desk">Send to cash-desk</a></li>
+              <li role="presentation" class="divider"></li>
+              <li role="presentation" class="dropdown-header">Messages</li>
+              <li><a href="#messages-new">Create Message</a></li>
+              <li><a href="#messages-edit">Edit Message</a></li>
+              <li><a href="#messages-delete">Delete Message</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+  <div class="container">
+    <div class="row forecast">
+      <div class="upcoming-shifts">
+        <div class="number danger">
+          15
         </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Dashboard</a></li>
-            <li><a href="#">Admin</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
+        <div class="description">
+          Angels needed in the next 3 hrs
+        </div>
+      </div>
+      <div class="upcoming-night-shifts">
+        <div class="number warning">
+          10
+        </div>
+        <div class="description">
+          Angels needed for nightshifts
+        </div>
+      </div>
+      <div class="currently-working">
+        <div class="number">
+          37
+        </div>
+        <div class="description">
+          Angels currently working
+        </div>
+      </div>
+      <div class="hours-worked">
+        <div class="number">
+          2342
+        </div>
+        <div class="description">
+          Hours worked
         </div>
       </div>
     </div>
-<div class="container">
-  <div class="row">
-    <h1>Currently avaliable Jobs</h1>
-    <div id="jobList"></div>
+    <div class="row">
+      <section class="job-list">
+        <h1>Within the next hour</h1>
+        <article class="job well warning">
+          <header>
+            <p>1<i class="icon-audio"></i> 2<i class="icon-video"></i><time class="icon-clock">16:00&ndash;17:30</time> <span class="location icon-location">Saal 1</span></p>
+          </header>
+          <p class="job-description">Cryptology in quantum computing</p>
+        </article>
+        <article class="job well danger">
+          <header>
+            <p>5<i class="icon-egal"></i><time class="icon-clock">16:00&ndash;18:30</time> <span class="location icon-location">Himmel</span></p>
+          </header>
+          <p class="job-description">Helping with food-shopping</p>
+        </article>
+        <article class="job well">
+          <header>
+            <p>2<i class="icon-security"></i><time class="icon-clock">16:00&ndash;18:00</time> <span class="location icon-location">Entrance</span></p>
+          </header>
+          <p class="job-description">Access Control + Crimping</p>
+        </article>
+        <h1>Within the next 2 hours</h1>
+        <article class="job well">
+          <header>
+            <p>1<i class="icon-audio"></i><time class="icon-clock">18:00&ndash;19:30</time> <span class="location icon-location">Saal G</span></p>
+          </header>
+          <p class="job-description">Lightning-Talks</p>
+        </article>
+        <article class="job well">
+          <header>
+            <p>3<i class="icon-audio"></i><time class="icon-clock">18:00&ndash;19:30</time> <span class="location icon-location">Saal 3</span></p>
+          </header>
+          <p class="job-description">Power to the people</p>
+        </article>
+      </section>
+      <section class="current-talks">
+        <h1>Current Talks</h1>
+        <ul>
+          <li class="success">
+            <time class="icon-clock">18:00&ndash;19:30</time>
+            <span class="location icon-location">Saal 1</span>
+            <span class="title">Jahresrückblick</span>
+          </li>
+          <li class="success">
+            <time class="icon-clock">18:00&ndash;19:30</time>
+            <span class="location icon-location">Saal 2</span>
+            <span class="title">NMAP Reloaded</span>
+          </li>
+          <li class="success">
+            <time class="icon-clock">18:00&ndash;19:30</time>
+            <span class="location icon-location">Saal 3</span>
+            <span class="title">Extreme Photograpy</span>
+          </li>
+          <li class="success">
+            <time class="icon-clock">18:00&ndash;19:30</time>
+            <span class="location icon-location">Saal F</span>
+            <span class="title">Lightning Talks</span>
+          </li>
+        </ul>
+      </section>
+      <section class="next-talks">
+        <h1>Next Talks</h1>
+        <ul>
+          <li class="danger">
+            <time class="icon-clock">20:00&ndash;21:30</time>
+            <span class="location icon-location">Saal 1</span>
+            <span class="title">Fnord News Show</span>
+            <span class="icon-security">3</span>
+            <span class="icon-herald">1</span>
+          </li>
+          <li class="danger">
+            <time class="icon-clock">20:00&ndash;21:30</time>
+            <span class="location icon-location">Saal 2</span>
+            <span class="title">Robolympics &ndash; A very very long talk title with even more words.</span>
+            <span class="icon-herald">1</span>
+            <span class="icon-video">2</span>
+            <span class="icon-audio">1</span>
+          </li>
+          <li class="warning">
+            <time class="icon-clock">20:00&ndash;21:30</time>
+            <span class="location icon-location">Saal 3</span>
+            <span class="title">Extreme Photograpy</span>
+            <span class="icon-audio">1</span>
+          </li>
+          <li class="success">
+            <time class="icon-clock">20:00&ndash;21:30</time>
+            <span class="location icon-location">Saal F</span>
+            <span class="title">Lightning Talks</span>
+          </li>
+        </ul>
+      </section>
+      <section class="news">
+        <article class="news-item">
+          <h1>News</h1>
+        </article>
+      </section>
+    </div>
   </div>
-</div>
-<script type="text/javascript" src="js/vendor/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
-<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="js/client.js"></script>
+  <script type="text/javascript" src="js/vendor/jquery-2.0.3.min.js"></script>
+  <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="js/client.js"></script>
 </body>
 </html>

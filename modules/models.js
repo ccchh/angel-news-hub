@@ -32,22 +32,22 @@ function addJob(job) {}
 
 function updateJob(job) {}
 
-// mongo.connect('mongodb://127.0.0.1:27017/angel-hub', function(err, db) {
-//     if(err) throw err;
+mongo.connect('mongodb://127.0.0.1:27017/angel-hub', function(err, db) {
+    if(err) throw err;
 
-//     var collection = db.collection('jobs');
+    var collection = db.collection('jobs');
 
-//     collection.insert({a:2}, function(err, docs) {
+    collection.insert({a:2}, function(err, docs) {
 
-//       collection.count(function(err, count) {
-//         console.log(format("count = %s", count));
-//       });
+      collection.count(function(err, count) {
+        console.log(format("count = %s", count));
+      });
 
-//       // Locate all the entries using find
-//       collection.find().toArray(function(err, results) {
-//         console.dir(results);
-//         // Let's close the db
-//         db.close();
-//       });
-//     });
-//   });
+      // Locate all the entries using find
+      collection.find().toArray(function(err, results) {
+        console.dir(results);
+        // Let's close the db
+        db.close();
+      });
+    });
+  });

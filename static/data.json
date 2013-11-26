@@ -1,0 +1,68 @@
+[
+  {
+    "SID": "10",
+    "start": "1386867600",
+    "end": "1386874800",
+    "RID": "1",
+    "name": "Testschichten",
+    "URL": null,
+    "PSID": null,
+    "room_name": "Testraum",
+    "has_special_needs": "1",
+    "angeltypes": [
+      {
+        "count": "2",
+        "id": "8",
+        "restricted": "0",
+        "confirm_user_id": null,
+        "name": "Testengeltyp",
+        "user_id": "1",
+        "taken": 1
+      }
+    ]
+  },
+  {
+    "SID": "11",
+    "start": "1386874800",
+    "end": "1386882000",
+    "RID": "1",
+    "name": "Testschichten",
+    "URL": null,
+    "PSID": null,
+    "room_name": "Testraum",
+    "has_special_needs": "1",
+    "angeltypes": [
+      {
+        "count": "2",
+        "id": "8",
+        "restricted": "0",
+        "confirm_user_id": null,
+        "name": "Testengeltyp",
+        "user_id": "1",
+        "taken": 2
+      }
+    ]
+  },
+  {
+    "SID": "12",
+    "start": "1386882000",
+    "end": "1386889200",
+    "RID": "1",
+    "name": "Testschichten",
+    "URL": null,
+    "PSID": null,
+    "room_name": "Testraum",
+    "has_special_needs": "1",
+    "angeltypes": [
+      {
+        "count": "2",
+        "id": "8",
+        "restricted": "0",
+        "confirm_user_id": null,
+        "name": "Testengeltyp",
+        "user_id": "1",
+        "taken": 0
+      }
+    ]
+  }
+]

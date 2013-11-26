@@ -1,4 +1,4 @@
-var AM = require('./account-manager');
+//var AM = require('./account-manager');
 
 module.exports = function(app) {
 
@@ -10,6 +10,10 @@ app.get('/admin', function(req, res) {
         res.render("backend_jobs");
     }
 })
+
+app.get('/', function(req, res) {
+    res.render("dashboard");
+});
 
 // // main login page //
 

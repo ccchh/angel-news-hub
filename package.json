@@ -24,6 +24,8 @@
     "grunt-html-validation": "~0.1.6",
     "grunt-notify": "~0.2.7",
     "jade": "0.35.0",
-    "moment" : "2.4.0"
+    "moment" : "2.4.0",
+    "cron": "1.0.1",
+    "underscore": "1.5.2"
   }
 }

@@ -13,4 +13,5 @@ app.set('view engine', 'jade');
 server.listen(3000);
 
 require('./modules/routes')(app);
-require('./modules/sockets')(io);
+//require('./modules/sockets')(io);
+require('./modules/databridge')(io);

@@ -30,7 +30,6 @@ $(document).ready(function() {
     }
 
     function renderData(data) {
-        console.log("New Data");
         renderNumbers(data.numbers);
         renderShifts(data.shifts);
         renderMessages(data.messages);
@@ -74,48 +73,53 @@ $(document).ready(function() {
     }
 
     function renderShifts(shiftData) {
-        var nowShifts = shiftData.filter(function(item) {
-            var now = new Date();
-            var start = new Date(item.start * 1000);
-            console.log((start - now) / 1000 / 60 / 60 / 24);
-            //return (start - now) > 0 && (start - now < (1000 * 60 * 60) );
-            return true;
-        });
-
-        var soonShifts = shiftData.filter(function(item) {
-            var now = new Date();
-            var start = new Date(item.start * 1000);
-            console.log((start - now) / 1000 / 60 / 60 / 24);
-            //return (start - now) > (1000 * 60 * 60 * 2) && (start - now < (1000 * 60 * 60) );
-            return true;
-        });
 
         var nowShiftContainer = $(".job-list > .jobs-now");
         var soonShiftContainer = $(".job-list > .jobs-soon");
 
         nowShiftContainer.empty();
-        $.each(nowShifts, function(i,shift) {
-            var showIt = false;
-            var article = $("<article>");
-            article.addClass("job well");
-            var header = $("<header>");
-            var headerParagraph = $("<p>");
-            $.each(shift.angeltypes, function(i, angeltype) {
-                var needed = angeltype.count - angeltype.taken;
-                if (needed > 0) {
-                    showIt = true;
-                    headerParagraph.append(needed + " " + angeltype.name);
-                }
-            });
+        $.each(shiftData.nowShifts, function(i,shift) {
+            if(shift.totalAngelsNeeded > 0) {
+                var article = $("<article>");
+                article.addClass("job well");
+                var header = $("<header>");
+                var headerParagraph = $("<p>");
+                $.each(shift.angelsNeeded, function(i, angel) {
+                    if (angel.count > 0) {
+                        headerParagraph.append(angel.count);
+                        headerParagraph.append($("<i>").addClass("icon-" + angel.angeltype));
+                    }
+                });
 
-            header.append(headerParagraph);
-            article.append(header);
-            nowShiftContainer.append(article);
+                var start = new Date(shift.start);
+                var end = new Date(shift.end);
 
+                var time = $('<time>').addClass("icon-clock");
+
+                time.append(start.getHours() + ":" + start.getMinutes());
+                time.append(" - ");
+                time.append(end.getHours() + ":" + end.getHours());
+
+                headerParagraph.append(time);
+
+                var location = $('<span>').addClass('location icon-location');
+                location.append(shift.location);
+                headerParagraph.append(location);
+
+                header.append(headerParagraph);
+                article.append(header);
+
+                var description = $('<p>').addClass('job-description');
+                description.append(shift.title);
+                article.append(description);
+
+
+                nowShiftContainer.append(article);
+            }
         });
 
         soonShiftContainer.empty();
-        $.each(soonShifts, function(i,shift) {
+        $.each(shiftData.soonShifts, function(i,shift) {
         });
     }
 
@@ -126,28 +130,28 @@ $(document).ready(function() {
           </header>
           <p class="job-description">Cryptology in quantum computing</p>
         </article>
-     */
+        */
 
-    function renderMessages(messageData) {
+        function renderMessages(messageData) {
 
-    }
+        }
 
-    function renderNews(newsData) {
+        function renderNews(newsData) {
 
-    }
+        }
 
-    function renderTalks(talkData) {
+        function renderTalks(talkData) {
 
-    }
+        }
 
 
 
-    var socket = io.connect('http://localhost:3000');
+        var socket = io.connect('http://localhost:3000');
 
-    socket.on('dataUpdate', function(data) {
-        renderData(data);
+        socket.on('dataUpdate', function(data) {
+            renderData(data);
+        });
     });
-});
     // var listContainer = $("#jobList");
     // listContainer.empty();
     // $.each(jobList, function(i,v) {

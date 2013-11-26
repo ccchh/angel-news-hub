@@ -26,6 +26,7 @@ module.exports = function(io) {
 
 
 function generateShiftData(json) {
+  console.log("GENERATING SHIFT DATA");
   var shiftData = {
     "nowShifts": [],
     "soonShifts": []
@@ -34,17 +35,33 @@ function generateShiftData(json) {
     var now = new Date();
     var start = new Date(item.start * 1000);
     var diff = start - now
-    if (diff < (1000 * 60 * 60 * 2) && diff > 0) {
+    if (true || (diff < (1000 * 60 * 60 * 2) && diff > 0)) {
+
+      angelsNeeded = _.map(item.angeltypes, function(i) {
+          return {
+            "angeltype": "audio",
+            "count": i.count - i.taken
+          };
+        });
+
       shift = {
         "title": item.name,
         "start": start,
         "end": new Date(item.end * 1000),
         "location": item.room_name,
-        "angelsNeeded": [],
-        "totalAngelsNeeded": 0
+        "angelsNeeded": angelsNeeded,
+        "totalAngelsNeeded": _.reduce(angelsNeeded, function(memo, num) {
+          return memo + num.count;
+        }, 0)
       }
+
+      console.log(shift);
+      shiftData.nowShifts.push(shift);
     }
   });
+  console.log(shiftData);
+
+  return shiftData;
 }
 
 // Utility function that downloads a URL and invokes

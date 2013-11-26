@@ -1,7 +1,7 @@
 var express = require('express')
   , app = express()
   , server = require('http').createServer(app)
-  // , mongo = require('mongodb').MongoClient
+  , mongo = require('mongodb').MongoClient
   , format = require('util').format
   , io = require('socket.io').listen(server)
 

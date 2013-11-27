@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 
     watch: {
       dev: {
-        files: ['**/**'],
+        files: ['app.js', 'static/js/**/*.js', 'modules/**/*.js', 'static/less/**/*.less', '!*.css', '**/*.jade', 'static/**/*.html', '**/*.json', '!node_modules/'],
         tasks: ['less', 'jshint:test'],
         options: {
           livereload: true,

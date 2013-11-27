@@ -7,7 +7,7 @@ var _ = require('underscore');
 module.exports = function(io) {
   return new cronJob('*/5 * * * * *', function(){
     download(url, function(data) {
-      var json = JSON.parse(data)
+      var json = JSON.parse(data);
       io.sockets.emit("dataUpdate", {
         "numbers": {
           "angelsNeeded": 0,
@@ -20,7 +20,7 @@ module.exports = function(io) {
         "talks": [],
         "messages": []
       });
-    })
+    });
   }, null, true);
 };
 
@@ -30,11 +30,11 @@ function generateShiftData(json) {
   var shiftData = {
     "nowShifts": [],
     "soonShifts": []
-  }
+  };
   _.forEach(json,function(item) {
     var now = new Date();
     var start = new Date(item.start * 1000);
-    var diff = start - now
+    var diff = start - now;
     if (true || (diff < (1000 * 60 * 60 * 2) && diff > 0)) {
 
       angelsNeeded = _.map(item.angeltypes, function(i) {
@@ -53,7 +53,7 @@ function generateShiftData(json) {
         "totalAngelsNeeded": _.reduce(angelsNeeded, function(memo, num) {
           return memo + num.count;
         }, 0)
-      }
+      };
 
       console.log(shift);
       shiftData.nowShifts.push(shift);

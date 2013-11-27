@@ -20,7 +20,7 @@ this.getJobs = function(cb) {
         if (toArrayError) throw toArrayError;
         cb(results);
     }));
-}
+};
 
 function getJobById(jobId) {
 

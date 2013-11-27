@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 
     jshint: {
       test: {
-        src: ['static/js/**.js', '!static/js/bootstrap/*', '!static/js/*.min.js', '!static/js/source-map.js']
+        src: ['static/js/**.js', 'modules/**/*.js', 'app.js', '!static/js/bootstrap/*', '!static/js/*.min.js', '!static/js/source-map.js']
       }
     },
 

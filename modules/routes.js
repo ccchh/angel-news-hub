@@ -4,12 +4,12 @@ module.exports = function(app) {
 
 
 app.get('/admin', function(req, res) {
-    if (req.cookies.user == undefined || req.cookies.pass == undefined) {
+    if (req.cookies.user === undefined || req.cookies.pass === undefined) {
         res.render("backend_jobs");
     } else {
         res.render("backend_jobs");
     }
-})
+});
 
 app.get('/', function(req, res) {
     res.render("dashboard");

@@ -5,7 +5,7 @@ var url = "http://localhost:3000/static/data.json";
 var _ = require('underscore');
 
 module.exports = function(io) {
-  return new cronJob('*/5 * * * * *', function(){
+  return new cronJob('*/5 * * * * *', function() {
     download(url, function(data) {
       var json = JSON.parse(data);
       io.sockets.emit("dataUpdate", {
@@ -30,7 +30,7 @@ function generateShiftData(json) {
     "nowShifts": [],
     "soonShifts": []
   };
-  _.forEach(json,function(item) {
+  _.forEach(json, function(item) {
     var now = new Date();
     var start = new Date(item.start * 1000);
     var diff = start - now;
@@ -74,7 +74,7 @@ function generateShiftData(json) {
 function download(url, callback) {
   http.get(url, function(res) {
     var data = "";
-    res.on('data', function (chunk) {
+    res.on('data', function(chunk) {
       data += chunk;
     });
     res.on("end", function() {

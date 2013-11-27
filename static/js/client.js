@@ -148,25 +148,25 @@ function generateShiftDOM(shift) {
     </header>
     <p class="job-description">Cryptology in quantum computing</p>
   </article>
-*/
+  */
 
-		function renderMessages(messageData) {
+  function renderMessages(messageData) {
 
-		}
+  }
 
-		function renderNews(newsData) {
+  function renderNews(newsData) {
 
-		}
+  }
 
-		function renderTalks(talkData) {
+  function renderTalks(talkData) {
 
-		}
+  }
 
 
 
-		var socket = io.connect('http://localhost:3000');
+  var socket = io.connect('http://localhost:3000');
 
-		socket.on('dataUpdate', function(data) {
-      renderData(data);
-    });
+  socket.on('dataUpdate', function(data) {
+    renderData(data);
   });
+});

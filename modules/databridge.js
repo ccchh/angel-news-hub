@@ -26,7 +26,6 @@ module.exports = function(io) {
 
 
 function generateShiftData(json) {
-  console.log("GENERATING SHIFT DATA");
   var shiftData = {
     "nowShifts": [],
     "soonShifts": []
@@ -35,14 +34,15 @@ function generateShiftData(json) {
     var now = new Date();
     var start = new Date(item.start * 1000);
     var diff = start - now;
+    //WORKAROUND CHANGE LATER
     if (true || (diff < (1000 * 60 * 60 * 2) && diff > 0)) {
 
       angelsNeeded = _.map(item.angeltypes, function(i) {
-          return {
-            "angeltype": "audio",
-            "count": i.count - i.taken
-          };
-        });
+        return {
+          "angeltype": "audio",
+          "count": i.count - i.taken
+        };
+      });
 
       shift = {
         "title": item.name,
@@ -53,10 +53,15 @@ function generateShiftData(json) {
         "totalAngelsNeeded": _.reduce(angelsNeeded, function(memo, num) {
           return memo + num.count;
         }, 0)
-      };
 
-      console.log(shift);
-      shiftData.nowShifts.push(shift);
+      };
+      if (shift.totalAngelsNeeded > 0) {
+        if (diff < (1000 * 60 * 60)) {
+          shiftData.nowShifts.push(shift);
+        } else {
+          shiftData.soonShifts.push(shift);
+        }
+      }
     }
   });
   console.log(shiftData);

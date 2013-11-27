@@ -33,13 +33,22 @@
     "has_special_needs": "1",
     "angeltypes": [
       {
-        "count": "2",
+        "count": "5",
         "id": "8",
         "restricted": "0",
         "confirm_user_id": null,
         "name": "Testengeltyp",
         "user_id": "1",
-        "taken": 2
+        "taken": 3
+      },
+      {
+        "count": "5",
+        "id": "8",
+        "restricted": "0",
+        "confirm_user_id": null,
+        "name": "Testengeltyp",
+        "user_id": "1",
+        "taken": 4
       }
     ]
   },

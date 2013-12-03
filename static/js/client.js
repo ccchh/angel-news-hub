@@ -180,7 +180,7 @@ $(document).ready(function() {
 
 
 
-  var socket = io.connect('http://localhost:3000');
+  var socket = io.connect('http://hub.chaos-angel.at');
 
   socket.on('jobUpdate', function(data) {
     renderShifts(data);

@@ -1,12 +1,15 @@
 //Responsible for getting Data from the Angel-System
-var http = require("http");
+var https = require("https");
 var cronJob = require('cron').CronJob;
-var url = "http://localhost:3000/static/data.json";
+var hostname = "engelsystem.de";
+var path = "/30c3/?p=shifts_json_export&export=user_shifts&key=c2e07c1b447efb82b53145a33e65f540";
 var _ = require('underscore');
+
+
 
 module.exports = function(io) {
   return new cronJob('*/5 * * * * *', function() {
-    download(url, function(data) {
+    download(hostname, path, function(data) {
       var json = JSON.parse(data);
       io.sockets.emit("dataUpdate", {
         "numbers": {
@@ -30,6 +33,7 @@ function generateShiftData(json) {
     "nowShifts": [],
     "soonShifts": []
   };
+  console.log(json);
   _.forEach(json, function(item) {
     var now = new Date();
     var start = new Date(item.start * 1000);
@@ -71,16 +75,27 @@ function generateShiftData(json) {
 
 // Utility function that downloads a URL and invokes
 // callback with the data.
-function download(url, callback) {
-  http.get(url, function(res) {
+function download(hostname, path, callback) {
+  var options = {
+    "rejectUnauthorized": false,
+    "hostname": hostname,
+    "path": path,
+    "port": 443,
+    "method": "GET"
+  };
+
+  https.get(options, function(res) {
     var data = "";
+    console.log(res);
     res.on('data', function(chunk) {
+      console.log("Chunk: ", chunk);
       data += chunk;
     });
     res.on("end", function() {
+      console.log("Data: ", data);
       callback(data);
     });
-  }).on("error", function() {
+  }).on("error", function(err) {
     callback(null);
   });
 }

@@ -1,0 +1,16 @@
+var config = {
+  port: 3000, //The Server Port to listen on
+  dB: { //MongoDb Database Settings
+    server: "127.0.0.1", //Database IP
+    port: 27017, //Database Port
+    dbName: "angel-hub", //Database name
+  },
+  angelSystem: {
+    hostname: "engelsystem.de",
+    path: "?p=shifts_json_export&export=user_shifts&key=",
+    apiKey: ""
+  }
+};
+
+
+module.exports = config;

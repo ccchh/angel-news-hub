@@ -16,7 +16,7 @@ module.exports = function(grunt) {
 
     jshint: {
       test: {
-        src: ['static/js/**.js', 'modules/**/*.js', 'app.js', '!static/js/bootstrap/*', '!static/js/*.min.js', '!static/js/source-map.js']
+        src: ['static/js/**.js', 'modules/**/*.js', 'app.js', 'config.js', '!static/js/bootstrap/*', '!static/js/*.min.js', '!static/js/source-map.js']
       }
     },
 
@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 
     watch: {
       dev: {
-        files: ['app.js', 'static/js/**/*.js', 'modules/**/*.js', 'static/less/**/*.less', '!*.css', '**/*.jade', 'static/**/*.html', '**/*.json', '!node_modules/'],
+        files: ['app.js', 'config.js', 'static/js/**/*.js', 'modules/**/*.js', 'static/less/**/*.less', '!*.css', '**/*.jade', 'static/**/*.html', '**/*.json', '!node_modules/'],
         tasks: ['less', 'jshint:test'],
         options: {
           livereload: true,

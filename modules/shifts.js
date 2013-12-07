@@ -1,30 +1,30 @@
 //Responsible for getting Data from the Angel-System
 var https = require("https");
 var cronJob = require('cron').CronJob;
-var hostname = "engelsystem.de";
-var path = "/30c3/?p=shifts_json_export&export=user_shifts&key=c2e07c1b447efb82b53145a33e65f540";
+var config = require('../config.js');
 var _ = require('underscore');
-
+var querystring = require('querystring');
 
 
 module.exports = function(io) {
-  return new cronJob('*/5 * * * * *', function() {
-    download(hostname, path, function(data) {
-      var json = JSON.parse(data);
-      io.sockets.emit("dataUpdate", {
-        "numbers": {
-          "angelsNeeded": 0,
-          "nightAngelsNeeded": 12,
-          "hoursWorked": 2343,
-          "currentlyWorking": 32
-        },
-        "shifts": generateShiftData(json),
-        "news": [],
-        "talks": [],
-        "messages": []
-      });
-    });
-  }, null, true);
+  return;
+  // return new cronJob('*/5 * * * * *', function() {
+  //   download(config.angelSystem.hostname, config.angelSystem.path + querystring.stringify(config.angelSystem.query), function(data) {
+  //     var json = JSON.parse(data);
+  //     io.sockets.emit("dataUpdate", {
+  //       "numbers": {
+  //         "angelsNeeded": 0,
+  //         "nightAngelsNeeded": 12,
+  //         "hoursWorked": 2343,
+  //         "currentlyWorking": 32
+  //       },
+  //       "shifts": generateShiftData(json),
+  //       "news": [],
+  //       "talks": [],
+  //       "messages": []
+  //     });
+  //   });
+  // }, null, true);
 };
 
 

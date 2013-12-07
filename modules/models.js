@@ -1,53 +1,85 @@
-var MongoDB     = require('mongodb').Db;
-var Server      = require('mongodb').Server;
-var dbPort      = 27017;
-var dbHost      = '127.0.0.1';
-var dbName      = 'angel-hub';
+var config = require('../config').db;
+var db = require('mongodb').MongoClient;
+var _ = require('underscore');
 
-/* establish the database connection */
-var db = new MongoDB(dbName, new Server(dbHost, dbPort, {auto_reconnect: true}), {w: 1});
-db.open(function(e, d){
-    if (e) {
-        console.log(e);
-    }   else{
-        console.log('connected to database :: ' + dbName);
-    }
-});
-var jobs = db.collection('jobs');
+dbConnectionString = "mongodb://" + config.server + ":" + config.port + "/" + config.dbName;
 
-this.getJobs = function(cb) {
-    cb(jobs.find().toArray(function(toArrayError, results) {
-        if (toArrayError) throw toArrayError;
-        cb(results);
-    }));
+
+
+exports.getJobs = function(cb) {
+  cb(null);
 };
 
-function getJobById(jobId) {
+exports.getSchedule = function(cb) {
+  db.connect(dbConnectionString, function(err, db) {
+    if (err) throw err;
 
-}
+    var collection = db.collection('schedule');
+    collection.find().sort({
+      start: 1
+    }).toArray(function(err, results) {
+      cb(results);
+      db.close();
+    });
+  });
+};
 
-function removeJob(jobId) {}
+exports.updateSchedule = function(data, cb) {
+  db.connect(dbConnectionString, function(err, db) {
+    if (err) throw err;
 
-function addJob(job) {}
+    var collection = db.collection('schedule');
+    var count = data.length;
 
-function updateJob(job) {}
+    _.each(data, function(item) {
+      collection.update({
+          id: item.id
+        }, {
+          $set: {
+            id: item.id,
+            title: item.title,
+            location: item.location,
+            start: item.start,
+            end: item.end
+          }
+        }, {
+          safe: true,
+          upsert: true
+        },
+        function(err) {
+          if (err) {
+            console.log(err);
+            console.log("Error Updating Schedule :(");
+          }
+          count--;
+          if (count === 0) {
+            console.log("Schedule update successfull");
+            //Return Updated Data to Callback
+            exports.getSchedule(cb);
+          }
+        }
+      );
+    });
+  });
+};
 
-// mongo.connect('mongodb://127.0.0.1:27017/angel-hub', function(err, db) {
-//     if(err) throw err;
+exports.getNews = function(cb) {
+  cb([{
+    title: "Testtitel",
+    text: "foobar",
+    date: new Date(),
+  }, {
+    title: "Testtitel",
+    text: "foobar",
+    date: new Date(),
+  }]);
+};
 
-//     var collection = db.collection('jobs');
-
-//     collection.insert({a:2}, function(err, docs) {
-
-//       collection.count(function(err, count) {
-//         console.log(format("count = %s", count));
-//       });
-
-//       // Locate all the entries using find
-//       collection.find().toArray(function(err, results) {
-//         console.dir(results);
-//         // Let's close the db
-//         db.close();
-//       });
-//     });
-//   });
+exports.getNumbers = function(cb) {
+  cb({
+    "angelsNeeded": 0,
+    "nightAngelsNeeded": 12,
+    "hoursWorked": 2343,
+    "currentlyWorking": 32
+  });
+};

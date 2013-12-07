@@ -1,17 +1,68 @@
-var models = require('./models');
+var models, io;
+var s = {};
 
-module.exports = function(io) {
+module.exports = function(module_io, module_models) {
 
-io.sockets.on('connection', function (socket) {
-  models.getJobs(function(data) {
-      socket.emit('dataUpdate', {
-        "shifts": data,
-        "angels-needed": 10,
-        "night-angels-needed": 12,
-        "hours-worked": 2343,
-        "currently-working": 32
-    });
+  models = module_models;
+  io = module_io;
+
+  io.sockets.on('connection', function(socket) {
+    s.emitJobUpdate(socket);
+    s.emitScheduleUpdate(socket);
+    s.emitNewsUpdate(socket);
+    s.emitNumberUpdate(socket);
   });
-});
 
+  return s;
+};
+
+//Update to all Clients
+s.broadcastJobUpdate = function() {
+  models.getJobs(function(data) {
+    io.sockets.emit('jobUpdate', data);
+  });
+};
+
+s.broadcastScheduleUpdate = function() {
+  models.getSchedule(function(data) {
+    io.sockets.emit('scheduleUpdate', data);
+  });
+};
+
+s.broadcastNewsUpdate = function() {
+  models.getNews(function(data) {
+    io.sockets.emit('newsUpdate', data);
+  });
+};
+
+s.broadcastNumberUpdate = function() {
+  models.getNews(function(data) {
+    io.sockets.emit('numberUpdate', data);
+  });
+};
+
+
+//Update to Single Client
+s.emitJobUpdate = function(socket) {
+  models.getJobs(function(data) {
+    socket.emit('jobUpdate', data);
+  });
+};
+
+s.emitScheduleUpdate = function(socket) {
+  models.getSchedule(function(data) {
+    socket.emit('scheduleUpdate', data);
+  });
+};
+
+s.emitNewsUpdate = function(socket) {
+  models.getNews(function(data) {
+    socket.emit('newsUpdate', data);
+  });
+};
+
+s.emitNumberUpdate = function(socket) {
+  models.getNumbers(function(data) {
+    socket.emit('numberUpdate', data);
+  });
 };

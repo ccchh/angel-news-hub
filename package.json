@@ -5,16 +5,17 @@
   "private": true,
   "author": "gnomus, jz",
   "repository": {
-      "type": "git"
-    , "url": "https://github.com/ccchh/angel-news-hub"
+    "type": "git",
+    "url": "https://github.com/ccchh/angel-news-hub"
   },
   "bugs": {
-      "url": "https://github.com/ccchh/angel-news-hub/issues"
+    "url": "https://github.com/ccchh/angel-news-hub/issues"
   },
   "dependencies": {
     "express": "3.4.4",
     "socket.io": "0.9.16",
     "mongodb": "1.3.19",
+    "bcrypt": "0.7.7",
     "grunt": "~0.4.1",
     "grunt-cli": "~0.1",
     "grunt-contrib-jshint": "~0.7.0",
@@ -23,7 +24,7 @@
     "grunt-contrib-less": "~0.6.4",
     "grunt-notify": "~0.2.7",
     "jade": "0.35.0",
-    "moment" : "2.4.0",
+    "moment": "2.4.0",
     "cron": "1.0.1",
     "underscore": "1.5.2"
   }

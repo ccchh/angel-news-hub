@@ -1,15 +1,35 @@
 var config = {
   port: 3000, //The Server Port to listen on
-  dB: { //MongoDb Database Settings
+  db: { //MongoDb Database Settings
     server: "127.0.0.1", //Database IP
     port: 27017, //Database Port
     dbName: "angel-hub", //Database name
   },
-  angelSystem: {
+  angelSystem: {  //TODO: Needs fix!
     hostname: "engelsystem.de",
-    path: "?p=shifts_json_export&export=user_shifts&key=",
-    apiKey: ""
-  }
+    path: "/30c3/?",
+    query: {
+      p: "shifts_json_export",
+      export: "user_shifts",
+      start_day: "2013-12-01",
+      start_time: "00:00",
+      end_day: "2013-12-01",
+      end_time: "23:59",
+      "rooms[]": [1, 2, 4, 5, 7],
+      "types[]": [26, 28, 16, 30, 12, 15, 18, 24, 14, 35, 17, 25],
+      "filled[]": [0, 1],
+      key: "angelsystem-api-key"
+    },
+  },
+  schedule: {
+    cronString: "0 */15 * * * *",
+    url: "http://events.ccc.de/congress/2013/Fahrplan/schedule.json"
+  },
+  users: [{
+    username: "user",
+    hash: "$2a$12$1gKLcKmvG53z5j4kmnAkd.7ih1AUlM/Tk61YFBgfR.J6OCDD6mSdu" // foobar123
+  }],
+  secret: "super-duper-app-secret"
 };
 
 

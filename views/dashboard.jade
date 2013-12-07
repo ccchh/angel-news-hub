@@ -1,78 +1,17 @@
 extends layout
 
 block scripts
-    script(src='static/js/client.js')
-    script(src='socket.io/socket.io.js')
+  script(src='static/js/client.js')
+  script(src='socket.io/socket.io.js')
 
 block nav
-    ul.nav.navbar-nav
-        li.active
-            a(href='/') Dashboard
-        li
-            a(href='https://github.com/ccchh/angel-news-hub/issues') Report issue
-    ul.nav.navbar-nav.navbar-right
-        li
-            a(href='/admin') Admin
-        li.icon
-            a.icon-social-github(href='https://github.com/ccchh/angel-news-hub/')
-        li.icon
-            a.icon-html5(href='#')
-        li.icon
-            a.icon-css3(href='#')
-        li.dropdown
-            a.dropdown-toggle(data-toggle='dropdown') Legend
-                span.caret
-            ul.dropdown-menu(role='menu')
-                li.dropdown-header(role='presentation') Angel-Types
-                li
-                    a.icon-egal  Egal-Angel
-                li
-                    a.icon-audio  Audio Angel
-                li
-                    a.icon-video  Video Angel
-                li
-                    a.icon-security  Security Angel
-                li
-                    a.icon-cashdesk  Cashdesk Angel
-                li
-                    a.icon-infothresen  Info Angel
-                li
-                    a.icon-noc-helpdesk  NOC Helpdesk
-                li
-                    a.icon-cert  CERT Angel
-                li
-                    a.icon-herald  Herald
-                li
-                    a.icon-signal  Signal Angel
-        li.dropdown
-            a.dropdown-toggle(data-toggle='dropdown') Admin
-                span.caret
-            ul.dropdown-menu(role='menu')
-                li.dropdown-header(role='presentation') Notifications
-                li
-                    a(href="#send-to-all") Send to all
-                li
-                    a(href="#send-to-security") Send to security
-                li
-                    a(href="#send-to-heralds") Send to heralds
-                li
-                    a(href="#send-to-audio") Send to audio
-                li
-                    a(href="#send-to-video") Send to video
-                li
-                    a(href="#send-to-bar") Send to bar
-                li
-                    a(href="#send-to-cert") Send to CERT
-                li
-                    a(href="#send-to-cash-desk") Send to cash-desk
-                li.divider(role='presentation')
-                li.dropdown-header(role='presentation') Messages
-                li
-                    a(href="#messages-new") Create Message
-                li
-                    a(href="#messages-edit") Edit Message
-                li
-                    a(href="#messages-delete") Delete Message
+  ul.nav.navbar-nav
+    li.active
+      a(href='/') Dashboard
+    li
+      a(href='/admin') Admin
+    li
+      a(href='https://github.com/ccchh/angel-news-hub/issues') Report issue
 
 block body
     div.row.forecast
@@ -96,20 +35,8 @@ block body
             div.jobs-soon
         section.current-talks
             h1 Current Talks
+            ul
         section.next-talks
             h1 Next Talks
+            ul
         section.news
-            article.new-item
-                h1 news
-                p.
-                    News Text altah
-                    Lorem Ipsum dolor sit amet und so weiter man
-                    Wie lang soll dieser text denn noch werden man?
-                    :D
-            article.new-item
-                h1 news
-                p.
-                    News Text altah
-                    Lorem Ipsum dolor sit amet und so weiter man
-                    Wie lang soll dieser text denn noch werden man?
-                    :D

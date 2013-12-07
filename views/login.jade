@@ -1,0 +1,23 @@
+extends layout
+
+block nav
+  ul.nav.navbar-nav
+    li
+      a(href='/') Dashboard
+    li.active
+      a(href='/admin') Admin
+    li
+      a(href='https://github.com/ccchh/angel-news-hub/issues') Report issue
+
+block body
+  div.row
+    div.col-md-4.col-md-offset-4
+      h1 Please Login
+      form(role="form", method="POST")
+        div.form-group
+          label Username
+          input.form-control#user(name="user")
+        div.form-group
+          label Password
+          input.form-control#pass(type="password", name="pass")
+        button.btn.btn-default(type="submit") Login

@@ -37,14 +37,6 @@ $(document).ready(function() {
     }
   }
 
-  function renderData(data) {
-    renderNumbers(data.numbers);
-    renderShifts(data.shifts);
-    renderMessages(data.messages);
-    renderNews(data.news);
-    renderTalks(data.talks);
-  }
-
   function renderNumbers(numberData) {
     //Get the DOM Objects
     var upcoming = $(".forecast > .upcoming-shifts > .number");
@@ -76,17 +68,16 @@ $(document).ready(function() {
     }
   }
 
-  function renderShifts(shiftData) {
-
+  function renderShifts(data) {
     var nowShiftContainer = $(".job-list > .jobs-now");
     var soonShiftContainer = $(".job-list > .jobs-soon");
 
     nowShiftContainer.empty();
-    $.each(shiftData.nowShifts, function(i, shift) {
+    $.each(data.nowShifts, function(i, shift) {
       nowShiftContainer.append(generateShiftDOM(shift));
     });
     soonShiftContainer.empty();
-    $.each(shiftData.soonShifts, function(i, shift) {
+    $.each(data.soonShifts, function(i, shift) {
       soonShiftContainer.append(generateShiftDOM(shift));
     });
   }
@@ -108,10 +99,9 @@ $(document).ready(function() {
 
     var time = $('<time>').addClass("icon-clock");
 
-    time.append(zeroFill(start.getHours()) + ":");
-    time.append(zeroFill(start.getMinutes()));
+    time.append(zeroFill(start.getHours()) + ":" + zeroFill(start.getMinutes()));
     time.append("&ndash;");
-    time.append(end.getHours() + ":" + end.getHours());
+    time.append(zeroFill(end.getHours()) + ":" + zeroFill(end.getMinutes()));
 
     headerParagraph.append(time);
 
@@ -135,33 +125,76 @@ $(document).ready(function() {
     return article;
   }
 
-
-  /*
-	<article class="job well warning">
-    <header>
-      <p>1<i class="icon-audio"></i> 2<i class="icon-video"></i><time class="icon-clock">16:00&ndash;17:30</time> <span class="location icon-location">Saal 1</span></p>
-    </header>
-    <p class="job-description">Cryptology in quantum computing</p>
-  </article>
-  */
-
-  function renderMessages(messageData) {
+  function renderMessages(data) {
 
   }
 
-  function renderNews(newsData) {
-
+  function renderNews(data) {
+    var newsContainer = $("section.news");
+    newsContainer.empty();
+    $.each(data, function(i, news) {
+      var n = $("<div>").addClass("news-item");
+      n.append($("<h1>").html(news.title));
+      n.append($("<p>").html(news.text));
+      newsContainer.append(n);
+    });
   }
 
-  function renderTalks(talkData) {
+  function renderSchedule(data) {
+    var nowTalkContainer = $('.current-talks > ul');
+    var soonTalkContainer = $('.next-talks > ul');
 
+    nowTalkContainer.empty();
+    $.each(data, function(i, talk) {
+      console.log(talk);
+      nowTalkContainer.append(generateTalkDOM(talk));
+    });
+
+    // soonTalkContainer.empty();
+    // $.each(data.soonTalks, function(i, talk) {
+    //   soonTalkContainer.append(generateTalkDOM(talk));
+    // });
   }
+
+  function generateTalkDOM(talk) {
+    var t = $('<li>');
+    var time = $('<time>').addClass('icon-clock');
+
+    var start = new Date(talk.start);
+    var end = new Date(talk.end);
+
+    time.append(zeroFill(start.getHours()) + ":" + zeroFill(start.getMinutes()));
+    time.append("&ndash;");
+    time.append(zeroFill(end.getHours()) + ":" + zeroFill(end.getMinutes()));
+
+    t.append(time);
+
+    t.append($('<span>').addClass('location icon-location').html(talk.location));
+    t.append($('<span>').addClass('title').html(talk.title));
+    return t;
+  }
+  // < li class = "success" >
+  // < time class = "icon-clock" > 18: 00 & ndash;  19: 30 < /time>
+  // <span class="location icon-location">Saal 3</span > < span class = "title" > Extreme Photograpy < /span>
+  // </li >
 
 
 
   var socket = io.connect('http://localhost:3000');
 
-  socket.on('dataUpdate', function(data) {
-    renderData(data);
+  socket.on('jobUpdate', function(data) {
+    renderShifts(data);
+  });
+
+  socket.on('newsUpdate', function(data) {
+    renderNews(data);
+  });
+
+  socket.on('scheduleUpdate', function(data) {
+    renderSchedule(data);
+  });
+
+  socket.on('numberUpdate', function(data) {
+    renderNumbers(data);
   });
 });

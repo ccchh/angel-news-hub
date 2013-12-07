@@ -1,28 +1,60 @@
 !!!5
 html
-    head
-        meta(charset='utf-8')
-        meta(name='viewport', content='width=device-width,initial-scale=1')
-        title 30c3 Angel Hub
-        link(rel='stylesheet', href='static/css/bootstrap.css')
-        link(rel='stylesheet', href='static/css/styles.css')
-    body
-        div.navbar.navbar-defaulti.navbar-inverse.navbar-fixed-bottom(role='Navigation')
-            div.container
-                div.navbar-header
-                    button.navbar-toggle(type='button', data-toggle='collapse', data-target='.nvabar-collapse')
-                        span.sr-only
-                            "Toggle Navigation"
-                        span.icon-bar
-                        span.icon-bar
-                        span.icon-bar
-                    a.navbar-brand(href='#')
-                        i.icon-rocket &nbsp;&nbsp; 30C3 News Hub
-                div.collapse.navbar-collapse
-                    block nav
-        div.container
-            block body
-        script(src='static/js/vendor/jquery-2.0.3.min.js')
-        script(src='static/js/vendor/bootstrap.min.js')
-        block scripts
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width,initial-scale=1')
+    title 30c3 Angel Hub
+    link(rel='stylesheet', href='static/css/bootstrap.css')
+    link(rel='stylesheet', href='static/css/styles.css')
+  body
+    div.navbar.navbar-defaulti.navbar-inverse.navbar-fixed-bottom(role='Navigation')
+      div.container
+        div.navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.nvabar-collapse')
+            span.sr-only
+              "Toggle Navigation"
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#')
+            i.icon-rocket &nbsp;&nbsp; 30C3 News Hub
+        div.collapse.navbar-collapse
+          block nav
+          ul.nav.navbar-nav.navbar-right
+            li.icon
+              a.icon-social-github(href='https://github.com/ccchh/angel-news-hub/')
+            li.icon
+              a.icon-html5(href='#')
+            li.icon
+              a.icon-css3(href='#')
+            li.dropdown
+              a.dropdown-toggle(data-toggle='dropdown') Legend
+                span.caret
+              ul.dropdown-menu(role='menu')
+                li.dropdown-header(role='presentation') Angel-Types
+                li
+                  a.icon-egal  Egal-Angel
+                li
+                  a.icon-audio  Audio Angel
+                li
+                  a.icon-video  Video Angel
+                li
+                  a.icon-security  Security Angel
+                li
+                  a.icon-cashdesk  Cashdesk Angel
+                li
+                  a.icon-infothresen  Info Angel
+                li
+                  a.icon-noc-helpdesk  NOC Helpdesk
+                li
+                  a.icon-cert  CERT Angel
+                li
+                  a.icon-herald  Herald
+                li
+                  a.icon-signal  Signal Angel
+    div.container
+      block body
+    script(src='static/js/vendor/jquery-2.0.3.min.js')
+    script(src='static/js/vendor/bootstrap.min.js')
+    block scripts
 

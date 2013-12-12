@@ -9,7 +9,22 @@ module.exports = function(app) {
       am.autoLogin(req.cookies.user, req.cookies.pass, function(u) {
         if (u !== null) {
           req.session.user = u;
-          res.render("backend_jobs");
+          res.redirect("/admin/news");
+        } else {
+          res.redirect("login");
+        }
+      });
+    }
+  });
+
+  app.get('/admin/news', function(req, res) {
+    if (req.cookies.user === undefined || req.cookies.pass === undefined) {
+      res.redirect("login");
+    } else {
+      am.autoLogin(req.cookies.user, req.cookies.pass, function(u) {
+        if (u !== null) {
+          req.session.user = u;
+          res.render("backend_news");
         } else {
           res.redirect("login");
         }

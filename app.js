@@ -22,8 +22,8 @@ require('./modules/routes')(app);
 var models = require('./modules/models');
 var sockets = require('./modules/sockets')(io, models);
 
-require('./modules/shifts')(models, sockets);
+var shiftCron = require('./modules/shifts')(models, sockets);
 var scheduleCron = require('./modules/schedule')(models, sockets);
 
-
+shiftCron.start();
 scheduleCron.start();

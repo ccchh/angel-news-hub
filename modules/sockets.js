@@ -7,7 +7,7 @@ module.exports = function(module_io, module_models) {
   io = module_io;
 
   io.sockets.on('connection', function(socket) {
-    s.emitJobUpdate(socket);
+    s.emitShiftUpdate(socket);
     s.emitScheduleUpdate(socket);
     s.emitNewsUpdate(socket);
     s.emitNumberUpdate(socket);
@@ -17,9 +17,9 @@ module.exports = function(module_io, module_models) {
 };
 
 //Update to all Clients
-s.broadcastJobUpdate = function() {
-  models.getJobs(function(data) {
-    io.sockets.emit('jobUpdate', data);
+s.broadcastShiftUpdate = function() {
+  models.getShifts(function(data) {
+    io.sockets.emit('shiftUpdate', data);
   });
 };
 
@@ -43,9 +43,9 @@ s.broadcastNumberUpdate = function() {
 
 
 //Update to Single Client
-s.emitJobUpdate = function(socket) {
-  models.getJobs(function(data) {
-    socket.emit('jobUpdate', data);
+s.emitShiftUpdate = function(socket) {
+  models.getShifts(function(data) {
+    socket.emit('shiftUpdate', data);
   });
 };
 

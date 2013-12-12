@@ -3,74 +3,69 @@ var https = require("https");
 var cronJob = require('cron').CronJob;
 var config = require('../config.js');
 var _ = require('underscore');
-var querystring = require('querystring');
+var moment = require('moment');
 
+var models, sockets;
 
-module.exports = function(io) {
-  return;
-  // return new cronJob('*/5 * * * * *', function() {
-  //   download(config.angelSystem.hostname, config.angelSystem.path + querystring.stringify(config.angelSystem.query), function(data) {
-  //     var json = JSON.parse(data);
-  //     io.sockets.emit("dataUpdate", {
-  //       "numbers": {
-  //         "angelsNeeded": 0,
-  //         "nightAngelsNeeded": 12,
-  //         "hoursWorked": 2343,
-  //         "currentlyWorking": 32
-  //       },
-  //       "shifts": generateShiftData(json),
-  //       "news": [],
-  //       "talks": [],
-  //       "messages": []
-  //     });
-  //   });
-  // }, null, true);
-};
+module.exports = function(module_models, module_sockets) {
 
+  models = module_models;
+  sockets = module_sockets;
 
-function generateShiftData(json) {
-  var shiftData = {
-    "nowShifts": [],
-    "soonShifts": []
-  };
-  console.log(json);
-  _.forEach(json, function(item) {
-    var now = new Date();
-    var start = new Date(item.start * 1000);
-    var diff = start - now;
-    //WORKAROUND CHANGE LATER
-    if (true || (diff < (1000 * 60 * 60 * 2) && diff > 0)) {
-
-      angelsNeeded = _.map(item.angeltypes, function(i) {
-        return {
-          "angeltype": "audio",
-          "count": i.count - i.taken
-        };
-      });
-
-      shift = {
-        "title": item.name,
-        "start": start,
-        "end": new Date(item.end * 1000),
-        "location": item.room_name,
-        "angelsNeeded": angelsNeeded,
-        "totalAngelsNeeded": _.reduce(angelsNeeded, function(memo, num) {
-          return memo + num.count;
-        }, 0)
-
-      };
-      if (shift.totalAngelsNeeded > 0) {
-        if (diff < (1000 * 60 * 60)) {
-          shiftData.nowShifts.push(shift);
-        } else {
-          shiftData.soonShifts.push(shift);
-        }
+  console.log("Running Shift Cronjob");
+  download(config.angelSystem.hostname, config.angelSystem.path + config.angelSystem.key,
+    function(data) {
+      if (data !== null) {
+        cronCallback(JSON.parse(data));
+      } else {
+        console.log("Shift Cronjob failed. There is a problem with your internet connection.");
       }
     }
-  });
-  console.log(shiftData);
+  );
 
-  return shiftData;
+  return new cronJob(config.angelSystem.cronString, function() {
+    console.log("Running Shift Cronjob");
+    download(config.angelSystem.hostname, config.angelSystem.path + config.angelSystem.key,
+      function(data) {
+        if (data !== null) {
+          cronCallback(JSON.parse(data));
+        } else {
+          console.log("Shift Cronjob failed. There is a problem with your internet connection.");
+        }
+      }
+    );
+  }, null, false); //Don't start the job right now.
+};
+
+function cronCallback(shifts) {
+  var shiftArray = [];
+
+  _.each(shifts, function(s) {
+    var angelsNeeded = _.map(s.angeltypes, function(i) {
+      return {
+        angeltype: config.angelSystem.angelIdMapping[i.angel_type_id],
+        count: i.count - i.taken
+      };
+    });
+
+    shift = {
+      id: s.SID,
+      title: s.name,
+      start: new Date(s.start * 1000),
+      end: new Date(s.end * 1000),
+      location: s.room_name,
+      angelsNeeded: angelsNeeded,
+      totalAngelsNeeded: _.reduce(angelsNeeded, function(memo, num) {
+        return memo + num.count;
+      }, 0)
+    };
+
+    shiftArray.push(shift);
+  });
+
+  models.updateShifts(shiftArray, function() {
+    sockets.broadcastShiftUpdate();
+  });
 }
 
 // Utility function that downloads a URL and invokes
@@ -86,13 +81,10 @@ function download(hostname, path, callback) {
 
   https.get(options, function(res) {
     var data = "";
-    console.log(res);
     res.on('data', function(chunk) {
-      console.log("Chunk: ", chunk);
       data += chunk;
     });
     res.on("end", function() {
-      console.log("Data: ", data);
       callback(data);
     });
   }).on("error", function(err) {

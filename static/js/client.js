@@ -144,16 +144,18 @@ $(document).ready(function() {
     var nowTalkContainer = $('.current-talks > ul');
     var soonTalkContainer = $('.next-talks > ul');
 
+    console.log(data);
+
     nowTalkContainer.empty();
-    $.each(data, function(i, talk) {
-      console.log(talk);
+    $.each(data.nowTalks, function(i, talk) {
       nowTalkContainer.append(generateTalkDOM(talk));
     });
 
-    // soonTalkContainer.empty();
-    // $.each(data.soonTalks, function(i, talk) {
-    //   soonTalkContainer.append(generateTalkDOM(talk));
-    // });
+    soonTalkContainer.empty();
+    $.each(data.soonTalks, function(i, talk) {
+      console.log(talk);
+      soonTalkContainer.append(generateTalkDOM(talk));
+    });
   }
 
   function generateTalkDOM(talk) {
@@ -173,16 +175,11 @@ $(document).ready(function() {
     t.append($('<span>').addClass('title').html(talk.title));
     return t;
   }
-  // < li class = "success" >
-  // < time class = "icon-clock" > 18: 00 & ndash;  19: 30 < /time>
-  // <span class="location icon-location">Saal 3</span > < span class = "title" > Extreme Photograpy < /span>
-  // </li >
 
+  //var socket = io.connect('http://hub.chaos-angel.at');
+  var socket = io.connect('http://localhost:3000');
 
-
-  var socket = io.connect('http://hub.chaos-angel.at');
-
-  socket.on('jobUpdate', function(data) {
+  socket.on('shiftUpdate', function(data) {
     renderShifts(data);
   });
 

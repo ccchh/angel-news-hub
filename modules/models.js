@@ -179,12 +179,12 @@ exports.updateSchedule = function(data, cb) {
 
 exports.getNews = function(cb) {
   cb([{
-    title: "Testtitel",
-    text: "foobar",
+    title: "This is a Demo News",
+    text: "Some random Text",
     date: new Date(),
   }, {
-    title: "Testtitel",
-    text: "foobar",
+    title: "Hello I am another News",
+    text: "Some more random Text",
     date: new Date(),
   }]);
 };

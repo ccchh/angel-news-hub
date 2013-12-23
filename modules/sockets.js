@@ -11,6 +11,13 @@ module.exports = function(module_io, module_models) {
     s.emitScheduleUpdate(socket);
     s.emitNewsUpdate(socket);
     s.emitNumberUpdate(socket);
+
+    socket.on('requestData', function(data) {
+      s.emitShiftUpdate(socket);
+      s.emitScheduleUpdate(socket);
+      s.emitNewsUpdate(socket);
+      s.emitNumberUpdate(socket);
+    })
   });
 
   return s;

@@ -32,6 +32,21 @@ module.exports = function(app) {
     }
   });
 
+  app.get('/admin/alerts', function(req, res) {
+    if (req.cookies.user === undefined || req.cookies.pass === undefined) {
+      res.redirect("login");
+    } else {
+      am.autoLogin(req.cookies.user, req.cookies.pass, function(u) {
+        if (u !== null) {
+          req.session.user = u;
+          res.render("backend_alerts");
+        } else {
+          res.redirect("login");
+        }
+      });
+    }
+  });
+
   app.get('/login', function(req, res) {
     if (req.cookies.user === undefined || req.cookies.pass === undefined) {
       res.render("login");

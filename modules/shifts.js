@@ -44,12 +44,13 @@ function cronCallback(shifts) {
     var angelsNeeded = _.map(s.angeltypes, function(i) {
       return {
         angeltype: config.angelSystem.angelIdMapping[i.angel_type_id],
-        count: i.count - i.taken
+        count: i.count - i.taken,
+        taken: i.taken
       };
     });
 
     shift = {
-      id: s.SID,
+      ShiftId: s.SID,
       title: s.name,
       start: new Date(s.start * 1000),
       end: new Date(s.end * 1000),
@@ -57,6 +58,9 @@ function cronCallback(shifts) {
       angelsNeeded: angelsNeeded,
       totalAngelsNeeded: _.reduce(angelsNeeded, function(memo, num) {
         return memo + num.count;
+      }, 0),
+      totalAngelsTaken: _.reduce(angelsNeeded, function(memo, num) {
+        return memo + num.taken;
       }, 0)
     };
 

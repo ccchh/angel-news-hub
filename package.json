@@ -26,6 +26,7 @@
     "jade": "0.35.0",
     "moment": "2.4.0",
     "cron": "1.0.1",
-    "underscore": "1.5.2"
+    "underscore": "1.5.2",
+    "node-cache": "0.4.0"
   }
 }

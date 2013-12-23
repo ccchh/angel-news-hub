@@ -15,8 +15,7 @@ module.exports = function(module_models, module_sockets) {
   download(config.schedule.url, function(data) {
     //STUPID FIX FOR STUPID PEOPLE
     if (data !== null) {
-      var fix = data.replace(/\\&quot;/g, "\\\\&quot;").replace(/days/, "dayCount");
-      var json = JSON.parse(fix);
+      var json = JSON.parse(data);
       cronCallback(json);
     } else {
       console.log("Schedule Cronjob failed. There is a problem with your internet connection.");
@@ -28,8 +27,9 @@ module.exports = function(module_models, module_sockets) {
     download(config.schedule.url, function(data) {
       //STUPID FIX FOR STUPID PEOPLE
       if (data !== null) {
-        var fix = data.replace(/\\&quot;/g, "\\\\&quot;").replace(/days/, "dayCount");
-        var json = JSON.parse(fix);
+        //var fix = data.replace(/\\&quot;/g, "\\\\&quot;").replace(/days/, "dayCount");
+        //var json = JSON.parse(fix);
+        var json = JSON.parse(data);
         cronCallback(json);
       } else {
         console.log("Schedule Cronjob failed. There is a problem with your internet connection.");
@@ -69,7 +69,7 @@ function cronCallback(data) {
 
         //The Actual Object to Store in Database.
         var talkObject = {
-          id: talk.id,
+          talkId: talk.id,
           title: talk.title,
           location: talk.room,
           start: start.toDate(),

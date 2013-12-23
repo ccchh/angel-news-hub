@@ -2,6 +2,11 @@ var config = require('../config').db;
 var db = require('mongodb').MongoClient;
 var _ = require('underscore');
 var moment = require('moment');
+var cache = require('node-cache');
+var numberCache = new cache({
+  stdTTL: 60,
+  checkperiod: 120
+});
 
 dbConnectionString = "mongodb://" + config.server + ":" + config.port + "/" + config.dbName;
 
@@ -11,14 +16,14 @@ exports.getShifts = function(cb) {
   db.connect(dbConnectionString, function(err, db) {
     if (err) throw err;
 
-    var now = moment([2013, 11, 21, 12]).toDate();
-    var soon = moment([2013, 11, 21, 12]).add('hours', 1).toDate();
-    var soonEnd = moment([2013, 11, 21, 12]).add('hours', 2).toDate();
+    var now = moment().toDate();
+    var soon = moment().add('hours', 1).toDate();
+    var soonEnd = moment().add('hours', 3).toDate();
 
     var collection = db.collection('shifts');
     collection.find({
       totalAngelsNeeded: {
-        $gte: 0 //We only need Shifts that are not full
+        $gt: 0 //We only need Shifts that are not full
       },
       start: {
         $gte: now,
@@ -29,7 +34,7 @@ exports.getShifts = function(cb) {
     }).toArray(function(err, nowresults) {
       collection.find({
         totalAngelsNeeded: {
-          $gte: 0 //We only need Shifts that are not full
+          $gt: 0 //We only need Shifts that are not full
         },
         start: {
           $gte: soon,
@@ -58,16 +63,17 @@ exports.updateShifts = function(data, cb) {
 
     _.each(data, function(item) {
       collection.update({
-          id: item.id
+          ShiftId: item.ShiftId
         }, {
           $set: {
-            id: item.id,
+            ShiftId: item.ShiftId,
             title: item.title,
             start: item.start,
             end: item.end,
             location: item.location,
             angelsNeeded: item.angelsNeeded,
-            totalAngelsNeeded: item.totalAngelsNeeded
+            totalAngelsNeeded: item.totalAngelsNeeded,
+            totalAngelsTaken: item.totalAngelsTaken
           }
         }, {
           safe: true,
@@ -82,7 +88,7 @@ exports.updateShifts = function(data, cb) {
           if (count === 0) {
             console.log("Shift update successfull");
             //Return Updated Data to Callback
-            exports.getSchedule(cb);
+            exports.getShifts(cb);
           }
         }
       );
@@ -94,8 +100,8 @@ exports.getSchedule = function(cb) {
   db.connect(dbConnectionString, function(err, db) {
     if (err) throw err;
 
-    var now = moment([2013, 11, 27, 17, 30]).toDate();
-    var soon = moment([2013, 11, 27, 17, 30]).add('hours', 3).toDate();
+    var now = moment().toDate();
+    var soon = moment().add('hours', 3).toDate();
 
     var collection = db.collection('schedule');
     collection.find({
@@ -141,10 +147,10 @@ exports.updateSchedule = function(data, cb) {
 
     _.each(data, function(item) {
       collection.update({
-          id: item.id
+          talkId: item.talkId
         }, {
           $set: {
-            id: item.id,
+            talkId: item.talkId,
             title: item.title,
             location: item.location,
             start: item.start,
@@ -184,10 +190,118 @@ exports.getNews = function(cb) {
 };
 
 exports.getNumbers = function(cb) {
-  cb({
-    "angelsNeeded": 0,
-    "nightAngelsNeeded": 12,
-    "hoursWorked": 2343,
-    "currentlyWorking": 32
+
+  var nightStartHour = 22;
+  var nightEndHour = 6;
+
+  var now = moment();
+  var soon = moment().add('hours', 3);
+  var nightStart, nightEnd;
+
+  if (now.hour() >= nightStartHour || now.hour() < nightEndHour) { //Nighttime
+    if (now.hour() < nightEndHour) { //After Midnight
+      nightStart = moment();
+      nightEnd = moment([now.year(), now.month(), now.date(), nightEndHour]);
+    } else { //Before Midnight
+      nightStart = moment();
+      nightEnd = moment([now.year(), now.month(), now.date() + 1, nightEndHour]);
+    }
+  } else { //Daytime
+    nightStart = moment([now.year(), now.month(), now.date(), nightStartHour]);
+    nightEnd = moment([now.year(), now.month(), now.date() + 1, nightEndHour]);
+  }
+
+  db.connect(dbConnectionString, function(err, db) {
+    if (err) throw err;
+
+    var collection = db.collection('shifts');
+
+    collection.find({
+      start: {
+        $gt: now.toDate()
+      }
+    }).toArray(function(err, futureResults) {
+      var hoursWorked = Math.floor(_.reduce(futureResults, function(memo, s) {
+        var duration = (s.end - s.start) / 1000 / 60;
+        return memo + (s.totalAngelsNeeded * duration);
+      }, 0) / 60);
+
+      collection.find({
+        start: {
+          $lt: now.toDate()
+        },
+        end: {
+          $gte: now.toDate()
+        }
+      }).toArray(function(err, nowResults) {
+        var angelsWorking = _.reduce(nowResults, function(memo, s) {
+          return memo + s.totalAngelsTaken;
+        }, 0);
+
+        collection.find({
+          start: {
+            $gte: now.toDate(),
+            $lt: soon.toDate()
+          }
+        }).toArray(function(err, soonResults) {
+
+          var angelsNeeded = _.reduce(soonResults, function(memo, s) {
+            return memo + s.totalAngelsNeeded;
+          }, 0);
+
+          collection.find({
+            start: {
+              $gte: nightStart.toDate()
+            },
+            end: {
+              $lt: nightEnd.toDate()
+            }
+          }).toArray(function(err, nightResults) {
+            var nightAngelsNeeded = _.reduce(nightResults, function(memo, s) {
+              console.log(s);
+              return memo + s.totalAngelsNeeded;
+            }, 0);
+
+            cb({
+              "angelsNeeded": angelsNeeded,
+              "hoursWorked": hoursWorked,
+              "currentlyWorking": angelsWorking,
+              "nightAngelsNeeded": nightAngelsNeeded
+            });
+          });
+        });
+      });
+    });
   });
 };
+
+// collection.find({
+//   totalAngelsNeeded: {
+//     $gte: 0 //We only need Shifts that are not full
+//   },
+//   start: {
+//     $gte: now,
+//     $lt: soon
+//   }
+// }).sort({
+//   start: 1
+// }).toArray(function(err, nowresults) {
+//   collection.find({
+//     totalAngelsNeeded: {
+//       $gte: 0 //We only need Shifts that are not full
+//     },
+//     start: {
+//       $gte: soon,
+//       $lt: soonEnd
+//     }
+//   }).sort({
+//     start: 1
+//   }).toArray(function(err, soonresults) {
+//     var results = {
+//       nowShifts: nowresults,
+//       soonShifts: soonresults
+//     };
+//     cb(results);
+//     db.close();
+//   });
+// });

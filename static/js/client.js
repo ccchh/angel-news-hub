@@ -194,4 +194,8 @@ $(document).ready(function() {
   socket.on('numberUpdate', function(data) {
     renderNumbers(data);
   });
+
+  setInterval(function() {
+    socket.emit('requestData', null);
+  }, 60000);
 });

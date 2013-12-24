@@ -59,7 +59,6 @@ exports.getShifts = function(cb) {
             nowShifts: nowresults,
             soonShifts: soonresults
           };
-          console.log(results);
           cb(results);
           db.close();
         });

@@ -191,15 +191,7 @@ exports.updateSchedule = function(data, cb) {
 };
 
 exports.getNews = function(cb) {
-  cb([{
-    title: "This is a Demo News",
-    text: "Some random Text",
-    date: new Date(),
-  }, {
-    title: "Hello I am another News",
-    text: "Some more random Text",
-    date: new Date(),
-  }]);
+  cb([]);
 };
 
 exports.getNumbers = function(cb) {

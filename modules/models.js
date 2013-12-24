@@ -43,12 +43,26 @@ exports.getShifts = function(cb) {
       }).sort({
         start: 1
       }).toArray(function(err, soonresults) {
-        var results = {
-          nowShifts: nowresults,
-          soonShifts: soonresults
-        };
-        cb(results);
-        db.close();
+        collection.find({
+          totalAngelsNeeded: {
+            $gt: 0
+          },
+          start: {
+            $lt: now
+          },
+          end: {
+            $gt: now
+          }
+        }).toArray(function(err, runningresults) {
+          var results = {
+            runningShifts: runningresults,
+            nowShifts: nowresults,
+            soonShifts: soonresults
+          };
+          console.log(results);
+          cb(results);
+          db.close();
+        });
       });
     });
   });

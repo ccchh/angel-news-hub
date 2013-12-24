@@ -76,12 +76,35 @@ $(document).ready(function() {
   function renderShifts(data) {
     var nowShiftContainer = $(".job-list > .jobs-now");
     var soonShiftContainer = $(".job-list > .jobs-soon");
+    var runningShiftContainer = $(".job-list > .jobs-running");
+
+    console.log(data);
+
+    runningShiftContainer.empty();
+    if (data.runningShifts.length > 0) {
+      $(".job-list > .header-jobs-running").show();
+    } else {
+      $(".job-list > .header-jobs-running").hide();
+    }
+    $.each(data.runningShifts, function(i, shift) {
+      runningShiftContainer.append(generateShiftDOM(shift));
+    });
 
     nowShiftContainer.empty();
+    if (data.nowShifts.length > 0) {
+      $(".job-list > .header-jobs-now").show();
+    } else {
+      $(".job-list > .header-jobs-now").hide();
+    }
     $.each(data.nowShifts, function(i, shift) {
       nowShiftContainer.append(generateShiftDOM(shift));
     });
     soonShiftContainer.empty();
+    if (data.soonShifts.length > 0) {
+      $(".job-list > .header-jobs-soon").show();
+    } else {
+      $(".job-list > .header-jobs-soon").hide();
+    }
     $.each(data.soonShifts, function(i, shift) {
       soonShiftContainer.append(generateShiftDOM(shift));
     });
@@ -149,7 +172,6 @@ $(document).ready(function() {
     var nowTalkContainer = $('.current-talks > ul');
     var soonTalkContainer = $('.next-talks > ul');
 
-    console.log(data);
 
     nowTalkContainer.empty();
     $.each(data.nowTalks, function(i, talk) {
@@ -158,7 +180,6 @@ $(document).ready(function() {
 
     soonTalkContainer.empty();
     $.each(data.soonTalks, function(i, talk) {
-      console.log(talk);
       soonTalkContainer.append(generateTalkDOM(talk));
     });
   }

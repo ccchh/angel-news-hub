@@ -17,7 +17,7 @@ module.exports = function(module_io, module_models) {
       s.emitScheduleUpdate(socket);
       s.emitNewsUpdate(socket);
       s.emitNumberUpdate(socket);
-    })
+    });
   });
 
   return s;

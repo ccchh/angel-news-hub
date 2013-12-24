@@ -1,4 +1,9 @@
 $(document).ready(function() {
+
+  setInterval(function() {
+    $("div.clock").html(moment().format('hh:mm:ss'));
+  }, 100);
+
   function zeroFill(number) {
     if (number === 0) {
       return '00';

@@ -2,8 +2,8 @@ var express = require('express'),
   app = express(),
   server = require('http').createServer(app),
   format = require('util').format,
-  config = require('./config.js');
-  io = require('socket.io').listen(config.socketIOPort),
+  config = require('./config.js'),
+  io = require('socket.io').listen(config.socketIOPort);
 
 app.use("/static", express.static(__dirname + '/static'));
 app.use(express.bodyParser());

@@ -2,7 +2,8 @@ extends layout
 
 block scripts
   script(src='/static/js/client.js')
-  script(src='/static/js/socket.io.js')
+  script(src='/static/js/vendor/socket.io.js')
+  script(src='/static/js/vendor/moment.min.js')
 
 block nav
   ul.nav.navbar-nav
@@ -12,6 +13,8 @@ block nav
       a(href='/admin') Admin
     li
       a(href='https://github.com/ccchh/angel-news-hub/issues') Report issue
+  div.nav.navbar-brand.clock ??:??:??
+
 
 block body
     div.row.forecast

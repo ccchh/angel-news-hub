@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   setInterval(function() {
-    $("div.clock").html(moment().format('hh:mm:ss'));
+    $("div.clock").html(moment().format('HH:mm:ss'));
   }, 100);
 
   function zeroFill(number) {

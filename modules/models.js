@@ -99,12 +99,25 @@ exports.updateShifts = function(data, cb) {
           }
           count--;
           if (count === 0) {
-            console.log("Shift update successfull");
-            //Return Updated Data to Callback
-            exports.getShifts(cb);
+            collection.find().toArray(function(err, dbdata) {
+              _.each(dbdata, function(i) {
+                if (!_.any(data, function(j) {
+                  return i.ShiftId == j.ShiftId;
+                })) {
+                  collection.remove({
+                    ShiftId: i.ShiftId
+                  }, null, function() {});
+                }
+              });
+              console.log("Shift update successfull");
+              //Return Updated Data to Callback
+              db.close();
+              exports.getShifts(cb);
+            });
           }
         }
       );
+
     });
   });
 };

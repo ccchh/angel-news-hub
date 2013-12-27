@@ -209,24 +209,24 @@ exports.getNews = function(cb) {
 
 exports.getNumbers = function(cb) {
 
-  var nightStartHour = 22;
-  var nightEndHour = 6;
+  var nightStartHour = 2;
+  var nightEndHour = 8;
 
   var now = moment();
   var soon = moment().add('hours', 3);
   var nightStart, nightEnd;
 
-  if (now.hour() >= nightStartHour || now.hour() < nightEndHour) { //Nighttime
-    if (now.hour() < nightEndHour) { //After Midnight
-      nightStart = moment();
+  if (now.hour() >= nightStartHour && now.hour() < nightEndHour) { //In the Night
+    nightStart = moment();
+    nightEnd = moment([now.year(), now.month(), now.date(), nightEndHour]);
+  } else { //Not in the Night
+    if (now.hour() < nightStartHour) { //After midnight
+      nightStart = moment([now.year(), now.month(), now.date(), nightStartHour]);
       nightEnd = moment([now.year(), now.month(), now.date(), nightEndHour]);
-    } else { //Before Midnight
-      nightStart = moment();
+    } else {
+      nightStart = moment([now.year(), now.month(), now.date() + 1, nightStartHour]);
       nightEnd = moment([now.year(), now.month(), now.date() + 1, nightEndHour]);
     }
-  } else { //Daytime
-    nightStart = moment([now.year(), now.month(), now.date(), nightStartHour]);
-    nightEnd = moment([now.year(), now.month(), now.date() + 1, nightEndHour]);
   }
 
   db.connect(dbConnectionString, function(err, db) {
@@ -272,11 +272,10 @@ exports.getNumbers = function(cb) {
               $gte: nightStart.toDate()
             },
             end: {
-              $lt: nightEnd.toDate()
+              $lte: nightEnd.toDate()
             }
           }).toArray(function(err, nightResults) {
             var nightAngelsNeeded = _.reduce(nightResults, function(memo, s) {
-              console.log(s);
               return memo + s.totalAngelsNeeded;
             }, 0);
 
@@ -292,34 +291,3 @@ exports.getNumbers = function(cb) {
     });
   });
 };
-
-// collection.find({
-//   totalAngelsNeeded: {
-//     $gte: 0 //We only need Shifts that are not full
-//   },
-//   start: {
-//     $gte: now,
-//     $lt: soon
-//   }
-// }).sort({
-//   start: 1
-// }).toArray(function(err, nowresults) {
-//   collection.find({
-//     totalAngelsNeeded: {
-//       $gte: 0 //We only need Shifts that are not full
-//     },
-//     start: {
-//       $gte: soon,
-//       $lt: soonEnd
-//     }
-//   }).sort({
-//     start: 1
-//   }).toArray(function(err, soonresults) {
-//     var results = {
-//       nowShifts: nowresults,
-//       soonShifts: soonresults
-//     };
-//     cb(results);
-//     db.close();
-//   });
-// });

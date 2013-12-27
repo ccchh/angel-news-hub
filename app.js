@@ -26,4 +26,4 @@ var shiftCron = require('./modules/shifts')(models, sockets);
 var scheduleCron = require('./modules/schedule')(models, sockets);
 
 shiftCron.start();
-scheduleCron.start();
+//scheduleCron.start();

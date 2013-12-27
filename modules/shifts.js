@@ -51,7 +51,7 @@ function cronCallback(shifts) {
       } else {
         return {
           angeltype: config.angelSystem.angelIdMapping[i.angel_type_id],
-          count: i.count - i.taken,
+          count: ((i.count - i.taken) < 0) ? 0 : (i.count - i.taken),
           taken: i.taken
         };
       }

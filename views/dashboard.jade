@@ -13,7 +13,6 @@ block nav
       a(href='/admin') Admin
     li
       a(href='https://github.com/ccchh/angel-news-hub/issues') Report issue
-  div.nav.navbar-brand.clock ??:??:??
 
 
 block body
@@ -34,14 +33,16 @@ block body
         section.job-list
             h1.header-jobs-running Currently running
             div.jobs-running
+        section.job-list
             h1.header-jobs-now Within the next hour
             div.jobs-now
             h1.header-jobs-soon Within the next 3 hours
             div.jobs-soon
-        section.current-talks
+        section.talks
+            div.clock.well ??:??:??
             h1 Current Talks
-            ul
-        section.next-talks
+            ul.current-talks-list
             h1 Next Talks
-            ul
+            ul.next-talks-list
+        section.next-talks
         section.news

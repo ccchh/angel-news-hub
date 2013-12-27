@@ -13,14 +13,20 @@ h1 {
   margin-bottom: 30px;
 }
 
-.job-list, .current-talks, .next-talks, .news {
+.job-list, .news {
   .make-sm-column(12);
   .make-md-column(6);
-  .make-lg-column(6);
+  .make-lg-column(4);
+}
+
+.talks, {
+  .make-sm-column(12);
+  .make-md-column(12);
+  .make-lg-column(4);
 }
 
 .upcoming-shifts, .upcoming-night-shifts, .currently-working, .hours-worked {
-  .make-sm-column(3);
+  .make-sm-column(6);
   .make-md-column(3);
   .make-lg-column(3);
   .number {
@@ -38,16 +44,13 @@ h1 {
 
 .job {
   header {
-    font-size: 30px;
-    time {
-      margin-left: 10px;
-    }
+    font-size: 27px;
     .location {
       margin-left: 10px;
     }
   }
   .job-description {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 100;
   }
   overflow: hidden;
@@ -62,7 +65,7 @@ h1 {
   }
 }
 
-.current-talks, .next-talks {
+.talks {
   font-size: 20px;
   font-weight: 100;
   ul {
@@ -79,4 +82,9 @@ h1 {
       }
     }
   }
+}
+
+.clock {
+  font-size: 70px;
+  text-align: center;
 }

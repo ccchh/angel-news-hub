@@ -115,10 +115,12 @@ $(document).ready(function() {
     article.addClass("job well");
     var header = $("<header>");
     var headerParagraph = $("<p>");
+    var angelParagraph = $("<p>");
     $.each(shift.angelsNeeded, function(i, angel) {
       if (angel.count > 0) {
-        headerParagraph.append(angel.count);
-        headerParagraph.append($("<i>").addClass("icon-" + angel.angeltype));
+        angelParagraph.append(angel.count);
+        angelParagraph.append($("<i>").addClass("icon-" + angel.angeltype));
+        angelParagraph.append("&nbsp;&nbsp;");
       }
     });
 
@@ -137,6 +139,7 @@ $(document).ready(function() {
     location.append(shift.location);
     headerParagraph.append(location);
 
+    header.append(angelParagraph);
     header.append(headerParagraph);
     article.append(header);
 
@@ -169,8 +172,8 @@ $(document).ready(function() {
   }
 
   function renderSchedule(data) {
-    var nowTalkContainer = $('.current-talks > ul');
-    var soonTalkContainer = $('.next-talks > ul');
+    var nowTalkContainer = $('.current-talks-list');
+    var soonTalkContainer = $('.next-talks-list');
 
 
     nowTalkContainer.empty();

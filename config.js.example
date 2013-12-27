@@ -1,35 +1,46 @@
 var config = {
   port: 3000, //The Server Port to listen on
+  socketIOPort: 3001, //The Server Port to listen on
   db: { //MongoDb Database Settings
     server: "127.0.0.1", //Database IP
     port: 27017, //Database Port
     dbName: "angel-hub", //Database name
   },
-  angelSystem: {  //TODO: Needs fix!
+  angelSystem: {
     hostname: "engelsystem.de",
-    path: "/30c3/?",
-    query: {
-      p: "shifts_json_export",
-      export: "user_shifts",
-      start_day: "2013-12-01",
-      start_time: "00:00",
-      end_day: "2013-12-01",
-      end_time: "23:59",
-      "rooms[]": [1, 2, 4, 5, 7],
-      "types[]": [26, 28, 16, 30, 12, 15, 18, 24, 14, 35, 17, 25],
-      "filled[]": [0, 1],
-      key: "angelsystem-api-key"
+    path: "/30c3/?p=shifts_json_export_all&api_key=",
+    key: "mykey",
+    cronString: "0 */3 * * * *",
+    angelIdMapping: {
+      "12": "cashdesk", //Cachdesk
+      "14": "egal", //Shift Coordinator
+      "15": "cert", //Cert
+      "16": "audio", //Audio
+      "17": "video", //Video
+      "18": "herald", //Herald
+      "24": "egal", //Preesse
+      "25": "video", //Video Coordinator
+      "26": "egal", //Egal
+      "28": "egal", //Arch Angel
+      "35": "egal", //Vereinstisch
+      "36": "egal", //Speakerdesk
+      "37": "infothresen", //Infodesk Supervisor
+      "38": "cert", //Cert Doctor
+      "39": "cashdesk", //Cashdesk Supervisor
+      "40": "audio", //translation
+      "41": "signal" //Signal
     },
+    ignoreAngelTypes: [38, 15]
   },
   schedule: {
     cronString: "0 */15 * * * *",
     url: "http://events.ccc.de/congress/2013/Fahrplan/schedule.json"
   },
-  users: [{
-    username: "user",
-    hash: "$2a$12$1gKLcKmvG53z5j4kmnAkd.7ih1AUlM/Tk61YFBgfR.J6OCDD6mSdu" // foobar123
+  users: [, {
+    username: "test",
+    hash: "$2a$12$JwxOBW1e2.XDNLEDKWg4t.K.VV3/81LFI9rsHV/ygPbCyW3RPNlNi" //test123
   }],
-  secret: "super-duper-app-secret"
+  secret: "myheavysecret"
 };
 
 

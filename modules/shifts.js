@@ -42,11 +42,19 @@ function cronCallback(shifts) {
 
   _.each(shifts, function(s) {
     var angelsNeeded = _.map(s.angeltypes, function(i) {
-      return {
-        angeltype: config.angelSystem.angelIdMapping[i.angel_type_id],
-        count: i.count - i.taken,
-        taken: i.taken
-      };
+      if (_.contains(config.angelSystem.ignoreAngelTypes, parseInt(i.angel_type_id))) {
+        return {
+          angeltype: config.angelSystem.angelIdMapping[i.angel_type_id],
+          count: 0,
+          taken: 0
+        };
+      } else {
+        return {
+          angeltype: config.angelSystem.angelIdMapping[i.angel_type_id],
+          count: i.count - i.taken,
+          taken: i.taken
+        };
+      }
     });
 
     shift = {
@@ -63,6 +71,7 @@ function cronCallback(shifts) {
         return memo + num.taken;
       }, 0)
     };
+
 
     shiftArray.push(shift);
   });

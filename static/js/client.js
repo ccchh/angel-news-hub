@@ -83,31 +83,33 @@ $(document).ready(function() {
     runningShiftContainer.empty();
     if (data.runningShifts.length > 0) {
       $(".job-list > .header-jobs-running").show();
+      $.each(data.runningShifts, function(i, shift) {
+        runningShiftContainer.append(generateShiftDOM(shift));
+      });
     } else {
       $(".job-list > .header-jobs-running").hide();
     }
-    $.each(data.runningShifts, function(i, shift) {
-      runningShiftContainer.append(generateShiftDOM(shift));
-    });
+
 
     nowShiftContainer.empty();
     if (data.nowShifts.length > 0) {
       $(".job-list > .header-jobs-now").show();
+      $.each(data.nowShifts, function(i, shift) {
+        nowShiftContainer.append(generateShiftDOM(shift));
+      });
     } else {
       $(".job-list > .header-jobs-now").hide();
     }
-    $.each(data.nowShifts, function(i, shift) {
-      nowShiftContainer.append(generateShiftDOM(shift));
-    });
+
     soonShiftContainer.empty();
-    if (data.soonShifts.length > 0) {
+    if (data.soonShifts.length > 0 && (data.soonShifts.length + data.nowShifts.length < 10) || data.nowShifts.length < 4) {
       $(".job-list > .header-jobs-soon").show();
+      $.each(data.soonShifts, function(i, shift) {
+        soonShiftContainer.append(generateShiftDOM(shift));
+      });
     } else {
       $(".job-list > .header-jobs-soon").hide();
     }
-    $.each(data.soonShifts, function(i, shift) {
-      soonShiftContainer.append(generateShiftDOM(shift));
-    });
   }
 
   function generateShiftDOM(shift) {

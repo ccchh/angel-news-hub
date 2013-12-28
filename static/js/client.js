@@ -102,7 +102,7 @@ $(document).ready(function() {
     }
 
     soonShiftContainer.empty();
-    if (data.soonShifts.length > 0 && (data.soonShifts.length + data.nowShifts.length < 10) || data.nowShifts.length < 4) {
+    if (data.soonShifts.length > 0 && ((data.soonShifts.length + data.nowShifts.length < 10) || data.nowShifts.length < 4)) {
       $(".job-list > .header-jobs-soon").show();
       $.each(data.soonShifts, function(i, shift) {
         soonShiftContainer.append(generateShiftDOM(shift));

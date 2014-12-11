@@ -11,11 +11,11 @@ var numberCache = new cache({
 
 var mongoClient = new MongoClient(new MongoServer(config.server, config.port));
 
-exports.getShifts = function(cb) {
-  mongoClient.open(function(err, mongoClient) {
-    if (err) throw err;
-    var db = mongoClient.db(config.dbName);
+mongoClient.open(function(err, mongoClient) {
+  if (err) throw err;
+  var db = mongoClient.db(config.dbName);
 
+  exports.getShifts = function(cb) {
     var now = moment().toDate();
     var soon = moment().add('hours', 1).toDate();
     var soonEnd = moment().add('hours', 3).toDate();
@@ -59,18 +59,13 @@ exports.getShifts = function(cb) {
             nowShifts: nowresults,
             soonShifts: soonresults
           };
-          mongoClient.close();
           cb(results);
         });
       });
     });
-  });
-};
+  };
 
-exports.updateShifts = function(data, cb) {
-  mongoClient.open(function(err, mongoClient) {
-    if (err) throw err;
-    var db = mongoClient.db(config.dbName);
+  exports.updateShifts = function(data, cb) {
 
     var collection = db.collection('shifts');
     var count = data.length;
@@ -112,7 +107,6 @@ exports.updateShifts = function(data, cb) {
               });
               console.log("Shift update successfull");
               //Return Updated Data to Callback
-              mongoClient.close();
               exports.getShifts(cb);
             });
           }
@@ -120,13 +114,9 @@ exports.updateShifts = function(data, cb) {
       );
 
     });
-  });
-};
+  };
 
-exports.getSchedule = function(cb) {
-  mongoClient.open(function(err, mongoClient) {
-    if (err) throw err;
-    var db = mongoClient.db(config.dbName);
+  exports.getSchedule = function(cb) {
 
     var now = moment().toDate();
     var soon = moment().add('hours', 3).toDate();
@@ -159,17 +149,12 @@ exports.getSchedule = function(cb) {
           soonTalks: soonresults
         };
 
-        mongoClient.close();
         cb(results);
       });
     });
-  });
-};
+  };
 
-exports.updateSchedule = function(data, cb) {
-  mongoClient.open(function(err, mongoClient) {
-    if (err) throw err;
-    var db = mongoClient.db(config.dbName);
+  exports.updateSchedule = function(data, cb) {
 
     var collection = db.collection('schedule');
     var count = data.length;
@@ -199,43 +184,38 @@ exports.updateSchedule = function(data, cb) {
             console.log("Schedule update successfull");
             //Return Updated Data to Callback
             exports.getSchedule(cb);
-            mongoClient.close();
           }
         }
       );
     });
-  });
-};
+  };
 
-exports.getNews = function(cb) {
-  cb([]);
-};
+  exports.getNews = function(cb) {
+    cb([]);
+  };
 
-exports.getNumbers = function(cb) {
+  exports.getNumbers = function(cb) {
 
-  var nightStartHour = 2;
-  var nightEndHour = 8;
+    var nightStartHour = 2;
+    var nightEndHour = 8;
 
-  var now = moment();
-  var soon = moment().add('hours', 3);
-  var nightStart, nightEnd;
+    var now = moment();
+    var soon = moment().add('hours', 3);
+    var nightStart, nightEnd;
 
-  if (now.hour() >= nightStartHour && now.hour() < nightEndHour) { //In the Night
-    nightStart = moment();
-    nightEnd = moment([now.year(), now.month(), now.date(), nightEndHour]);
-  } else { //Not in the Night
-    if (now.hour() < nightStartHour) { //After midnight
-      nightStart = moment([now.year(), now.month(), now.date(), nightStartHour]);
+    if (now.hour() >= nightStartHour && now.hour() < nightEndHour) { //In the Night
+      nightStart = moment();
       nightEnd = moment([now.year(), now.month(), now.date(), nightEndHour]);
-    } else {
-      nightStart = moment([now.year(), now.month(), now.date() + 1, nightStartHour]);
-      nightEnd = moment([now.year(), now.month(), now.date() + 1, nightEndHour]);
+    } else { //Not in the Night
+      if (now.hour() < nightStartHour) { //After midnight
+        nightStart = moment([now.year(), now.month(), now.date(), nightStartHour]);
+        nightEnd = moment([now.year(), now.month(), now.date(), nightEndHour]);
+      } else {
+        nightStart = moment([now.year(), now.month(), now.date() + 1, nightStartHour]);
+        nightEnd = moment([now.year(), now.month(), now.date() + 1, nightEndHour]);
+      }
     }
-  }
 
-  mongoClient.open(function(err, mongoClient) {
-    if (err) throw err;
-    var db = mongoClient.db(config.dbName);
 
     var collection = db.collection('shifts');
 
@@ -285,7 +265,6 @@ exports.getNumbers = function(cb) {
               return memo + s.totalAngelsNeeded;
             }, 0);
 
-            mongoClient.close();
             cb({
               "angelsNeeded": angelsNeeded,
               "hoursWorked": hoursWorked,
@@ -296,5 +275,6 @@ exports.getNumbers = function(cb) {
         });
       });
     });
-  });
-};
+  };
+
+});

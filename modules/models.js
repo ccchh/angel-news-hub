@@ -118,7 +118,7 @@ MongoClient.connect('mongodb://' + config.server + ':' + config.port + '/' + con
   exports.getSchedule = function(cb) {
 
     var now = moment().toDate();
-    var soon = moment().add('hours', 3).toDate();
+    var soon = moment().add('hours', 12).toDate();
 
     var collection = db.collection('schedule');
     collection.find({

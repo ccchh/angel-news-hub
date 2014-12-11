@@ -12,23 +12,17 @@ module.exports = function(module_models, module_sockets) {
   models = module_models;
   sockets = module_sockets;
 
-  console.log("Running Shift Cronjob");
-  download(config.angelSystem.hostname, config.angelSystem.path + config.angelSystem.key,
-    function(data) {
-      if (data !== null) {
-        cronCallback(JSON.parse(data));
-      } else {
-        console.log("Shift Cronjob failed. There is a problem with your internet connection.");
-      }
-    }
-  );
-
   return new cronJob(config.angelSystem.cronString, function() {
     console.log("Running Shift Cronjob");
     download(config.angelSystem.hostname, config.angelSystem.path + config.angelSystem.key,
       function(data) {
         if (data !== null) {
-          cronCallback(JSON.parse(data));
+          try {
+            var json = JSON.parse(data);
+            cronCallback(json);
+          } catch {
+            console.log("Shift Cronjob failed. Could not Parse Json", data);
+          }
         } else {
           console.log("Shift Cronjob failed. There is a problem with your internet connection.");
         }

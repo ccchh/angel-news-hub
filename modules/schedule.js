@@ -11,26 +11,16 @@ module.exports = function(module_models, module_sockets) {
   models = module_models;
   sockets = module_sockets;
 
-  console.log("Running Schedule Cronjob");
-  download(config.schedule.url, function(data) {
-    //STUPID FIX FOR STUPID PEOPLE
-    if (data !== null) {
-      var json = JSON.parse(data);
-      cronCallback(json);
-    } else {
-      console.log("Schedule Cronjob failed. There is a problem with your internet connection.");
-    }
-  });
-
   return new cronJob(config.schedule.cronString, function() {
     console.log("Running Schedule Cronjob");
     download(config.schedule.url, function(data) {
-      //STUPID FIX FOR STUPID PEOPLE
       if (data !== null) {
-        //var fix = data.replace(/\\&quot;/g, "\\\\&quot;").replace(/days/, "dayCount");
-        //var json = JSON.parse(fix);
-        var json = JSON.parse(data);
-        cronCallback(json);
+        try {
+          var json = JSON.parse(data);
+          cronCallback(json);
+        } catch {
+          console.log("Schedule Cronjob failed. Could not Parse JSON", data);
+        }
       } else {
         console.log("Schedule Cronjob failed. There is a problem with your internet connection.");
       }

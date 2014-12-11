@@ -1,5 +1,6 @@
 var config = require('../config').db;
-var db = require('mongodb').MongoClient;
+var MongoClient = require('mongodb').MongoClient;
+var MongoServer = require('mongodb').Server;
 var _ = require('underscore');
 var moment = require('moment');
 var cache = require('node-cache');
@@ -8,13 +9,12 @@ var numberCache = new cache({
   checkperiod: 120
 });
 
-dbConnectionString = "mongodb://" + config.server + ":" + config.port + "/" + config.dbName;
-
-
+var mongoClient = new MongoClient(new MongoServer(config.server, config.port));
 
 exports.getShifts = function(cb) {
-  db.connect(dbConnectionString, function(err, db) {
+  mongoClient.open(function(err, mongoClient) {
     if (err) throw err;
+    var db = mongoClient.db(config.dbName);
 
     var now = moment().toDate();
     var soon = moment().add('hours', 1).toDate();
@@ -59,8 +59,8 @@ exports.getShifts = function(cb) {
             nowShifts: nowresults,
             soonShifts: soonresults
           };
+          mongoClient.close();
           cb(results);
-          db.close();
         });
       });
     });
@@ -68,8 +68,9 @@ exports.getShifts = function(cb) {
 };
 
 exports.updateShifts = function(data, cb) {
-  db.connect(dbConnectionString, function(err, db) {
+  mongoClient.open(function(err, mongoClient) {
     if (err) throw err;
+    var db = mongoClient.db(config.dbName);
 
     var collection = db.collection('shifts');
     var count = data.length;
@@ -111,7 +112,7 @@ exports.updateShifts = function(data, cb) {
               });
               console.log("Shift update successfull");
               //Return Updated Data to Callback
-              db.close();
+              mongoClient.close();
               exports.getShifts(cb);
             });
           }
@@ -123,8 +124,9 @@ exports.updateShifts = function(data, cb) {
 };
 
 exports.getSchedule = function(cb) {
-  db.connect(dbConnectionString, function(err, db) {
+  mongoClient.open(function(err, mongoClient) {
     if (err) throw err;
+    var db = mongoClient.db(config.dbName);
 
     var now = moment().toDate();
     var soon = moment().add('hours', 3).toDate();
@@ -157,16 +159,17 @@ exports.getSchedule = function(cb) {
           soonTalks: soonresults
         };
 
+        mongoClient.close();
         cb(results);
-        db.close();
       });
     });
   });
 };
 
 exports.updateSchedule = function(data, cb) {
-  db.connect(dbConnectionString, function(err, db) {
+  mongoClient.open(function(err, mongoClient) {
     if (err) throw err;
+    var db = mongoClient.db(config.dbName);
 
     var collection = db.collection('schedule');
     var count = data.length;
@@ -196,6 +199,7 @@ exports.updateSchedule = function(data, cb) {
             console.log("Schedule update successfull");
             //Return Updated Data to Callback
             exports.getSchedule(cb);
+            mongoClient.close();
           }
         }
       );
@@ -229,8 +233,9 @@ exports.getNumbers = function(cb) {
     }
   }
 
-  db.connect(dbConnectionString, function(err, db) {
+  mongoClient.open(function(err, mongoClient) {
     if (err) throw err;
+    var db = mongoClient.db(config.dbName);
 
     var collection = db.collection('shifts');
 
@@ -280,6 +285,7 @@ exports.getNumbers = function(cb) {
               return memo + s.totalAngelsNeeded;
             }, 0);
 
+            mongoClient.close();
             cb({
               "angelsNeeded": angelsNeeded,
               "hoursWorked": hoursWorked,

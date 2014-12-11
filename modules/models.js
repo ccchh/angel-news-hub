@@ -9,9 +9,8 @@ var numberCache = new cache({
   checkperiod: 120
 });
 
-var mongoClient = new MongoClient(new MongoServer(config.server, config.port));
 
-mongoClient.connect('mongodb://' + config.server + ':' + config.port + '/' + config.dbName;, function(err, db) {
+MongoClient.connect('mongodb://' + config.server + ':' + config.port + '/' + config.dbName, function(err, db) {
   if (err) throw err;
   //var db = mongoClient.db(config.dbName);
 

@@ -20,7 +20,7 @@ module.exports = function(module_models, module_sockets) {
           try {
             var json = JSON.parse(data);
             cronCallback(json);
-          } catch {
+          } catch(e) {
             console.log("Shift Cronjob failed. Could not Parse Json", data);
           }
         } else {

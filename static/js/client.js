@@ -207,7 +207,7 @@ $(document).ready(function() {
     return t;
   }
 
-  var socket = io.connect('http://hub.chaos-angel.at:3001');
+  var socket = io.connect(location.href);
   //var socket = io.connect('http://localhost:3001');
 
   socket.on('shiftUpdate', function(data) {

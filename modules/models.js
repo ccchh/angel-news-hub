@@ -223,6 +223,13 @@ MongoClient.connect('mongodb://' + config.server + ':' + config.port + '/' + con
         $gt: now.toDate()
       }
     }).toArray(function(err, futureResults) {
+      
+      //Filter Buildup and 
+      futureResults = data = _.filter(futureResults, function(shift){
+        return !(shift.title === 'Buildup' || shift.title === 'Teardown');
+        
+      });
+      
       var hoursWorked = Math.floor(_.reduce(futureResults, function(memo, s) {
         var duration = (s.end - s.start) / 1000 / 60;
         return memo + (s.totalAngelsNeeded * duration);

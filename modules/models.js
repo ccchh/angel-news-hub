@@ -255,7 +255,6 @@ MongoClient.connect('mongodb://' + config.server + ':' + config.port + '/' + con
         }).toArray(function(err, soonResults) {
 
           var angelsNeeded = _.reduce(soonResults, function(memo, s) {
-            console.log(s.totalAngelsNeeded, s.ShiftId);
             return memo + s.totalAngelsNeeded;
           }, 0);
 

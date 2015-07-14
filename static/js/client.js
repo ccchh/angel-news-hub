@@ -78,7 +78,6 @@ $(document).ready(function() {
     var soonShiftContainer = $(".job-list > .jobs-soon");
     var runningShiftContainer = $(".job-list > .jobs-running");
 
-    console.log(data);
 
     runningShiftContainer.empty();
     if (data.runningShifts.length > 0) {

@@ -1,4 +1,4 @@
-var http = require("http");
+var https = require("https");
 var cronJob = require('cron').CronJob;
 var config = require('../config.js');
 var _ = require('underscore');
@@ -80,7 +80,7 @@ function cronCallback(data) {
 // Utility function that downloads a URL and invokes
 // callback with the data.
 function download(url, callback) {
-  http.get(url, function(res) {
+  https.get(url, function(res) {
     var data = "";
     res.on('data', function(chunk) {
       data += chunk;

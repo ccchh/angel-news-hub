@@ -12,21 +12,21 @@
     "url": "https://github.com/ccchh/angel-news-hub/issues"
   },
   "dependencies": {
-    "express": "3.4.4",
-    "socket.io": "0.9.16",
-    "mongodb": "1.4.23",
-    "bcrypt": "0.7.7",
-    "grunt": "~0.4.1",
-    "grunt-cli": "~0.1",
-    "grunt-contrib-jshint": "~0.7.0",
-    "grunt-contrib-uglify": "~0.2.4",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-less": "~0.6.4",
-    "grunt-notify": "~0.2.7",
-    "jade": "0.35.0",
-    "moment": "2.4.0",
-    "cron": "1.0.1",
-    "underscore": "1.5.2",
-    "node-cache": "0.4.0"
+    "express": "*",
+    "socket.io": "*",
+    "mongodb": "*",
+    "bcrypt": "*",
+    "grunt": "*",
+    "grunt-cli": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-contrib-less": "*",
+    "grunt-notify": "*",
+    "jade": "*",
+    "moment": "*",
+    "cron": "*",
+    "underscore": "*",
+    "node-cache": "*"
   }
 }

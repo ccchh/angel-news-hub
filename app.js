@@ -3,16 +3,16 @@ var express = require('express'),
   server = require('http').createServer(app),
   format = require('util').format,
   config = require('./config.js'),
-  io = require('socket.io').listen(config.socketIOPort);
+  io = require('socket.io')(server);
 
 app.use("/static", express.static(__dirname + '/static'));
-app.use(express.bodyParser());
-app.use(express.cookieParser());
-app.use(express.session({
-  secret: config.secret
-}));
+//app.use(express.bodyParser());
+//app.use(express.cookieParser());
+//app.use(express.session({
+//  secret: config.secret
+//}));
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 io.set('log level', 1);
 
